@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -87,5 +88,27 @@ class AuthController extends Controller
         return redirect()->route('main')->with('success', 'Login successful!');
     }
 
+    public function logout(Request $request)
+    {
+        $token = session('jwt_token');
 
+        if ($token) {
+            try {
+                JWTAuth::invalidate($token);
+            } catch (JWTException $e) {
+                return redirect()->route('login')->withErrors(['error' => 'Failed to log out.']);
+            }
+        }
+
+        $request->session()->forget('jwt_token');
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'redirect_url' => route('login'),
+            'message' => 'You have been logged out.'
+        ]);
+    }
 }
