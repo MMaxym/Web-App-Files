@@ -70,7 +70,7 @@ Open your browser and navigate to the address specified in the **APP_URL** varia
 ## Core Technologies
 - **Backend**: Laravel
 - **Frontend**: Blade and SPA via Nuxt.js API
-- **Контейнери**: Docker & Docker Compose
+- **Containers**: Docker & Docker Compose
 
 
 ---

@@ -184,4 +184,5 @@ input::placeholder {
     font-size: 12px;
     margin-top: 5px;
     display: block;
+    color: red;
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -50,4 +51,41 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Registration successful!');
     }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'No user found with this email address.',
+            ])->withInput();
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Incorrect password.',
+            ])->withInput();
+        }
+
+        $token = JWTAuth::fromUser($user);
+
+        session(['jwt_token' => $token]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('main')->with('success', 'Login successful!');
+    }
+
+
 }
