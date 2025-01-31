@@ -85,7 +85,7 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('main')->with('success', 'Login successful!');
+        return redirect()->route('main')->with('success', 'Authorization successful!');
     }
 
     public function logout(Request $request)

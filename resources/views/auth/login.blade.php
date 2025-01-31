@@ -32,7 +32,13 @@
                     @enderror
 
                     <div class="divider">or</div>
-                    <button class="google-btn"> <img alt="Google Icon" src="{{ asset('images/Google.svg') }}"> Google</button>
+
+                    <div class="btn-google">
+                        <a href="{{ route('google.redirect') }}" class="google-btn-link">
+                            <img src="{{ asset('images/Google.svg') }}" alt="Google Icon" class="google-icon">
+                            Google
+                        </a>
+                    </div>
 
                     <button type="submit" class="login-btn">LOG IN</button>
                 </form>

@@ -6,8 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Web files')</title>
 
-
-    <link rel="icon" href="{{ asset('images/logo.ico') }}"  type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/Logo.png') }}">
+{{--    Зробити лого більшим--}}
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 
