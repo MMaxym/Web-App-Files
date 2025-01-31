@@ -19,7 +19,7 @@
                     <div class="error-message">{{ $message }}</div>
                     @enderror
 
-                    <label for="password">Password <a href="#" class="forgot">Forgot Password?</a></label>
+                    <label for="password">Password <a href="{{route('password.request')}}" class="forgot">Forgot Password?</a></label>
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password" placeholder="Enter your password">
                         <button type="button" id="togglePassword">

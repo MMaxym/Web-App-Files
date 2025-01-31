@@ -7,7 +7,6 @@
     <title>@yield('title', 'Web files')</title>
 
     <link rel="icon" href="{{ asset('images/Logo.png') }}">
-{{--    Зробити лого більшим--}}
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 

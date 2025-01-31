@@ -13,11 +13,11 @@
     align-items: center;
     gap: 50px;
     font-family: var(--h2-b), sans-serif;
-    margin-left: 7% !important;
-    margin-top: 20px;
+    margin-left: 61% !important;
+    margin-top: 10%;
 }
 
-.register-box {
+.reset-box {
     background-color: rgba(22, 34, 46, 0.1);
     backdrop-filter: blur(20px);
     padding: 30px;
@@ -81,7 +81,7 @@ input::placeholder {
     font-size: 20px;
 }
 
-.register-btn {
+.reset-btn {
     background: var(--blue1);
     color: var(--text-color);
     font-weight: bold;
@@ -93,7 +93,7 @@ input::placeholder {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.register-btn:hover {
+.reset-btn:hover {
     background-color: var(--blueHover);
 }
 
@@ -122,7 +122,7 @@ input::placeholder {
     background: var(--light1);
     color: var(--text-color);
     padding: 10px;
-    border-radius: var(--br-3xs);
+    border-radius: 5px;
     height: 46px;
 }
 

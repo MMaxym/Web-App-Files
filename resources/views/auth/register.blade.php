@@ -130,7 +130,12 @@
                 if (this.value.trim() === "") {
                     passwordError.textContent = "Password is required.";
                     passwordError.style.color = "red";
-                } else {
+                }
+                else if (this.value.length < 6) {
+                    passwordError.textContent = "Password must be at least 6 characters.";
+                    passwordError.style.color = "red";
+                }
+                else {
                     passwordError.textContent = "";
                 }
             });
@@ -139,7 +144,8 @@
                 if (this.value.trim() === "") {
                     confirmPasswordError.textContent = "Confirm Password is required.";
                     confirmPasswordError.style.color = "red";
-                } else if (this.value !== passwordInput.value) {
+                }
+                else if (this.value !== passwordInput.value) {
                     confirmPasswordError.textContent = "Passwords do not match.";
                     confirmPasswordError.style.color = "red";
                 } else {
