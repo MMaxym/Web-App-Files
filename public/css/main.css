@@ -93,7 +93,6 @@ body {
 .user-icon{
     color: var(--text-color);
     font-size: 30px;
-    cursor: pointer;
     border: none;
     background-color: transparent;
     transition: transform 0.3s ease;
@@ -355,7 +354,450 @@ tr.selected {
     flex-direction: column;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 102px;
+    right: 125px;
+    background-color: rgb(119, 147, 159, 0.5);
+    backdrop-filter: blur(30px);
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    padding: 20px;
+    border-radius: var(--br-3xs);
+}
 
+.account-information{
+    margin-bottom: 20px;
+    color: var(--dark1);
+    text-align: end;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 2px solid;
+}
 
+.account-information i {
+    margin-right: 7px;
+    font-size: 18px;
+}
 
+.user-info {
+    border-bottom: 2px solid;
+}
 
+.user-info p {
+    font-size: 16px;
+    color: var(--light1);
+    text-align: end;
+    margin: 15px 0 20px;
+}
+
+.btn-edit {
+    background-color: transparent;
+    color: var(--dark1);
+    padding: 10px 15px;
+    border: none;
+    border-radius: var(--br-3xs);
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: auto;
+    display: block;
+    font-weight: bold;
+}
+
+.btn-edit:hover {
+    background-color: var(--light1Hover);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(30, 48, 68, 0.7);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+}
+
+.m-content {
+    background: var(--light1) ;
+    padding: 15px;
+    border-radius: var(--br-3xs);
+    width: 30%;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid;
+    border-color: var(--blue1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none !important;
+    padding-bottom: 5px !important;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.modal-description{
+    color: var(--grey);
+    font-size: 12px;
+    padding-left: 20px;
+}
+
+.modalClose{
+    cursor: pointer;
+    font-size: 25px ;
+    border: none;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.modalClose:hover {
+    color: var(--grey);
+}
+
+.modal-body label{
+    color: var(--text-color);
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#firstNameLabel{
+    margin-top: 25px;
+}
+
+.modal-body input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid;
+    border-color: var(--grey);
+    border-radius: var(--br-3xs);
+    background-color: var(--light1);
+    color: var(--grey);
+    font-size: 14px;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: var(--blue1);
+    color: var(--text-color);
+    border-radius: var(--br-3xs);
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.save-btn:hover {
+    background: var(--blueHover);
+}
+
+.form-edit{
+    margin-bottom: 0;
+}
+
+.error-message {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    color: red;
+}
+
+.m-content-upload {
+    background: var(--light1) ;
+    padding: 30px;
+    border-radius: var(--br-3xs);
+    width: 30%;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid;
+    border-color: var(--blue1);
+}
+
+.modal-header-upload {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none !important;
+    padding-bottom: 5px !important;
+}
+
+.modal-header-upload h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.modal-description-upload{
+    color: var(--grey);
+    font-size: 12px;
+}
+
+.modalClose{
+    cursor: pointer;
+    font-size: 25px ;
+    border: none;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.modalClose:hover {
+    color: var(--grey);
+}
+
+.modal-body-upload{
+    margin-top: 30px;
+}
+
+.file-dropzone {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px dashed transparent;
+    border-image: repeating-linear-gradient(
+        45deg,
+        var(--blue1) 0 7px,
+        transparent 7px 14px
+    ) 10;
+    border-image-slice: 1;
+}
+
+.fa-cloud-upload-alt{
+    color: var(--blue1);
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.browse-desc{
+    color: var(--text-color);
+}
+
+.browse{
+    color: var(--blue1);
+}
+
+.browse:hover{
+    color: var(--blueHover);
+    text-decoration: underline var(--blueHover);
+    cursor: pointer;
+}
+
+.file-validation{
+    color: var(--grey);
+    font-size: 12px;
+    margin: 0 !important;
+}
+
+.optional-section h2{
+    margin: 30px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.optional{
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.modal-body-upload label{
+    color: var(--text-color);
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.modal-body-upload input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid;
+    border-color: var(--grey);
+    border-radius: var(--br-3xs);
+    background-color: var(--light1);
+    color: var(--grey);
+    font-size: 14px;
+}
+
+#comment{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid;
+    border-color: var(--grey);
+    border-radius: var(--br-3xs);
+    background-color: var(--light1);
+    color: var(--grey);
+    font-size: 14px;
+    resize: vertical;
+}
+
+#comment::placeholder {
+    color: var(--grey);
+}
+
+#deletionDate::-webkit-calendar-picker-indicator {
+    filter: invert(50%) sepia(100%) saturate(200%) hue-rotate(170deg);
+}
+
+.add-file-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: var(--blue1);
+    color: var(--text-color);
+    border-radius: var(--br-3xs);
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-file-btn:hover {
+    background: var(--blueHover);
+}
+
+.form-upload{
+    margin-bottom: 0;
+}
+
+.error-message {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    color: red;
+}
+
+.m-content-link {
+    background: var(--light1) ;
+    padding: 30px;
+    border-radius: var(--br-3xs);
+    width: 30%;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid;
+    border-color: var(--blue1);
+}
+
+.modal-header-link{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none !important;
+    padding-bottom: 5px !important;
+}
+
+.modal-header-link h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.modal-description-link{
+    color: var(--grey);
+    font-size: 12px;
+}
+
+.modalClose{
+    cursor: pointer;
+    font-size: 25px ;
+    border: none;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.modalClose:hover {
+    color: var(--grey);
+}
+
+.modal-body-link{
+    margin-top: 20px;
+}
+
+.modal-body-link label{
+    color: var(--text-color);
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.modal-body-link input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid;
+    border-color: var(--grey);
+    border-radius: var(--br-3xs);
+    background-color: var(--light1);
+    color: var(--grey);
+    font-size: 14px;
+}
+
+.copy-link-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: var(--blue1);
+    color: var(--text-color);
+    border-radius: var(--br-3xs);
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.copy-link-btn:hover {
+    background: var(--blueHover);
+}
+
+.copy-link-btn i{
+    margin-right: 5px;
+}
+
+.copy-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+    padding: 15px 25px;
+    font-size: 16px;
+    border-radius: var(--br-3xs);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.copy-message.visible {
+    display: flex;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+}
+
+.error-message {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    color: red;
+}

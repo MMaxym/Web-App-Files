@@ -17,7 +17,7 @@
                 <input type="email" id="email" name="email" placeholder="Enter email address" value="{{ old('email') }}">
                 <div id="emailError" class="error-message"></div>
                 @error('email')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <label for="password">Password</label>
@@ -29,7 +29,7 @@
                 </div>
                 <div id="passwordError" class="error-message"></div>
                 @error('password')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <label for="confirm-password">Confirm Password</label>
@@ -41,28 +41,28 @@
                 </div>
                 <div id="confirmPasswordError" class="error-message"></div>
                 @error('password_confirmation')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <label for="first-name">First Name</label>
                 <input type="text" id="first-name" name="first_name" placeholder="Enter first name" value="{{ old('first_name') }}">
                 <div id="firstNameError" class="error-message"></div>
                 @error('first_name')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <label for="last-name">Last Name</label>
                 <input type="text" id="last-name" name="last_name" placeholder="Enter last name" value="{{ old('last_name') }}">
                 <div id="lastNameError" class="error-message"></div>
                 @error('last_name')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter phone number" value="{{ old('phone') }}">
                 <div id="phoneError" class="error-message"></div>
                 @error('phone')
-                <div class="error-message">{{ $message }}</div>
+                <div class="error-message">* {{ $message }}</div>
                 @enderror
 
                 <button type="submit" class="register-btn">SIGN UP</button>
@@ -119,7 +119,7 @@
 
             emailInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    emailError.textContent = "Email is required.";
+                    emailError.textContent = "* Email is required.";
                     emailError.style.color = "red";
                 } else {
                     emailError.textContent = "";
@@ -128,11 +128,11 @@
 
             passwordInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    passwordError.textContent = "Password is required.";
+                    passwordError.textContent = "* Password is required.";
                     passwordError.style.color = "red";
                 }
                 else if (this.value.length < 6) {
-                    passwordError.textContent = "Password must be at least 6 characters.";
+                    passwordError.textContent = "* Password must be at least 6 characters.";
                     passwordError.style.color = "red";
                 }
                 else {
@@ -142,11 +142,11 @@
 
             confirmPasswordInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    confirmPasswordError.textContent = "Confirm Password is required.";
+                    confirmPasswordError.textContent = "* Confirm Password is required.";
                     confirmPasswordError.style.color = "red";
                 }
                 else if (this.value !== passwordInput.value) {
-                    confirmPasswordError.textContent = "Passwords do not match.";
+                    confirmPasswordError.textContent = "* Passwords do not match.";
                     confirmPasswordError.style.color = "red";
                 } else {
                     confirmPasswordError.textContent = "";
@@ -155,7 +155,7 @@
 
             firstNameInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    firstNameError.textContent = "First Name is required.";
+                    firstNameError.textContent = "* First Name is required.";
                     firstNameError.style.color = "red";
                 } else {
                     firstNameError.textContent = "";
@@ -164,7 +164,7 @@
 
             lastNameInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    lastNameError.textContent = "Last Name is required.";
+                    lastNameError.textContent = "* Last Name is required.";
                     lastNameError.style.color = "red";
                 } else {
                     lastNameError.textContent = "";
@@ -173,7 +173,7 @@
 
             phoneInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    phoneError.textContent = "Phone Number is required.";
+                    phoneError.textContent = "* Phone Number is required.";
                     phoneError.style.color = "red";
                 } else {
                     phoneError.textContent = "";

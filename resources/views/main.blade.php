@@ -10,7 +10,7 @@
                 <div class="header">
                     <div class="logo">  <img src="{{ asset('images/main-logo.svg') }}" alt="Logo" class="main-logo"></div>
                     <div class="toolbar">
-                        <button class="btn-add">
+                        <button class="btn-add" id="openModal">
                             <span class="icon-circle"><i class="fas fa-plus"></i></span> Add file
                         </button>
                         <button class="btn-else"><i class="fas fa-copy"></i> Copy</button>
@@ -18,22 +18,141 @@
                         <button class="btn-else"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
                     <div class="account">
-                        <button class="user-icon"><i class="far fa-user-circle"></i></button>
-                        <button id="logout-btn"><i class="fas fa-sign-out-alt logout"></i></button>
+                        <button id="user-icon" class="user-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <button id="logout-btn">
+                            <i class="fas fa-sign-out-alt logout"></i>
+                        </button>
                     </div>
                 </div>
 
+                <div id="uploadModal" class="modal">
+                    <div class="m-content-upload">
+                        <div class="modal-header-upload">
+                            <h2>Files Upload</h2>
+                            <span class="modalClose" id="closeModalUpload">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                        <div class="modal-description-upload">Add your documents here</div>
+                        <div class="modal-body-upload">
+                            <div class="file-dropzone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p class="browse-desc">Drag your file(s) or <span class="browse">browse</span></p>
+                                <p class="file-validation">* Max 5 MB files are allowed</p>
+                            </div>
+                            <div class="optional-section">
+                                <h2>Optional: <span class="optional">Add Comments and Deletion Date for File</span></h2>
+                                <label for="comment">Comment</label>
+                                <textarea id="comment" placeholder="Enter your comment"></textarea>
+
+                                <label for="deletionDate">Deletion Date</label>
+                                <input type="date" id="deletionDate">
+                            </div>
+                            <button class="add-file-btn">ADD FILE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dropdown" class="dropdown-content">
+                    <div class="account-information">
+                        <i class="fas fa-address-card"></i>
+                        Personal Information
+                    </div>
+                    <div class="user-info">
+                        <p class="user-name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+                        <p class="user-email">{{ Auth::user()->email }}</p>
+                        <p class="user-phone">{{ Auth::user()->phone }}</p>
+                    </div>
+                    <button class="btn-edit" id="editButton">
+                        <i class="fas fa-pencil-alt"></i>
+                        Edit
+                    </button>
+                </div>
+
+                <div id="editModal" class="modal">
+                    <div class="m-content">
+                        <div class="modal-header">
+                            <h2>Edit Personal Information</h2>
+                            <span class="modalClose" id="closeModal">
+                            <i class="fas fa-times"></i>
+                        </span>
+                        </div>
+                        <div class="modal-description">You can edit your personal information and save it</div>
+                        <div class="modal-body">
+                            <form class="form-edit">
+                                @csrf
+                                <label for="firstName" id="firstNameLabel">First Name</label>
+                                <input type="text" id="firstName" name="first_name" value="{{ Auth::user()->first_name }}">
+                                <div id="firstNameError" class="error-message"></div>
+                                @error('first_name')
+                                <div class="error-message">* {{ $message }}</div>
+                                @enderror
+
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="last_name" value="{{ Auth::user()->last_name }}">
+                                <div id="lastNameError" class="error-message"></div>
+                                @error('last_name')
+                                <div class="error-message">* {{ $message }}</div>
+                                @enderror
+
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="{{ Auth::user()->email }}">
+                                <div id="emailError" class="error-message"></div>
+                                @error('email')
+                                <div class="error-message">* {{ $message }}</div>
+                                @enderror
+
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" value="{{ Auth::user()->phone }}">
+                                <div id="phoneError" class="error-message"></div>
+                                @error('phone')
+                                <div class="error-message">* {{ $message }}</div>
+                                @enderror
+
+                                <button type="submit" class="save-btn">SAVE CHANGES</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="main-content">
                     <div class="sidebar">
-                        <button class="sidebar-btn">
+                        <button class="sidebar-btn"  id="openModalLink1">
                             <i class="fas fa-link"></i> Generate disposable <span>link</span>
                         </button>
-                        <button class="sidebar-btn">
+                        <button class="sidebar-btn"  id="openModalLink2">
                             <i class="fas fa-link"></i> Generate multiple <span>link</span>
                         </button>
                         <div class="total-count">
                             <span>Total Count</span>
                             <strong>142</strong>
+                        </div>
+                    </div>
+
+                    <div id="linkModal" class="modal">
+                        <div class="m-content-link">
+                            <div class="modal-header-link">
+                                <h2>Generate Link</h2>
+                                <span class="modalClose" id="closeModalLink">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            </div>
+                            <div class="modal-description-link">Copy the created link</div>
+                            <div class="modal-body-link">
+                                <div class="link-section">
+                                    <label for="link">Generate Link</label>
+                                    <input type="text" id="link" value="http://localhost/files/name-file.format/xdvpscvpdhbepwfjr9uvfvnru9e8urf0we8fhfvob" readonly>
+                                </div>
+                                <button class="copy-link-btn">
+                                    <i class="fas fa-copy"></i> COPY LINK
+                                </button>
+                                <div id="copy-message" class="copy-message">
+                                    <i class="fas fa-check-circle"></i> Link copied!
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -91,7 +210,7 @@
                                         </div>
                                     </td>
                                     <td>357</td>
-                                    <td>16.11.2023 04:45</td>
+                                    <td>16.11.2023</td>
                                 </tr>
                                 <tr>
                                     <td class="file-info">
@@ -102,7 +221,7 @@
                                         </div>
                                     </td>
                                     <td>1024</td>
-                                    <td>12.12.2023 10:30</td>
+                                    <td>12.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -114,7 +233,7 @@
                                         </div>
                                     </td>
                                     <td>2050</td>
-                                    <td>14.12.2023 09:15</td>
+                                    <td>14.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -126,7 +245,7 @@
                                         </div>
                                     </td>
                                     <td>1820</td>
-                                    <td>15.12.2023 17:00</td>
+                                    <td>15.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -138,7 +257,7 @@
                                         </div>
                                     </td>
                                     <td>800</td>
-                                    <td>16.12.2023 11:30</td>
+                                    <td>16.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -150,7 +269,7 @@
                                         </div>
                                     </td>
                                     <td>2500</td>
-                                    <td>18.12.2023 13:45</td>
+                                    <td>18.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -162,7 +281,7 @@
                                         </div>
                                     </td>
                                     <td>1540</td>
-                                    <td>20.12.2023 08:00</td>
+                                    <td>20.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -174,7 +293,7 @@
                                         </div>
                                     </td>
                                     <td>900</td>
-                                    <td>21.12.2023 15:30</td>
+                                    <td>21.12.2023</td>
                                 </tr>
 
                                 <tr>
@@ -186,7 +305,7 @@
                                         </div>
                                     </td>
                                     <td>1200</td>
-                                    <td>22.12.2023 16:45</td>
+                                    <td>22.12.2023</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -198,7 +317,6 @@
 
 
         <script>
-
             let token = "{{ session('jwt_token') }}";
             if (token) {
                 sessionStorage.setItem("jwt_token", token);
@@ -246,5 +364,168 @@
             document.addEventListener('click', function() {
                 document.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
             });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var userIcon = document.getElementById("user-icon");
+                var dropdown = document.getElementById("dropdown");
+
+                userIcon.addEventListener("mouseenter", function () {
+                    dropdown.style.display = "block";
+                });
+
+                userIcon.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                });
+
+                dropdown.addEventListener("mouseleave", function () {
+                    dropdown.style.display = "none";
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (!userIcon.contains(event.target) && !dropdown.contains(event.target)) {
+                        dropdown.style.display = "none";
+                    }
+                });
+            });
+
+            const editButton = document.getElementById("editButton");
+            const modal = document.getElementById("editModal");
+            const closeModal = document.getElementById("closeModal");
+
+            editButton.addEventListener("click", () => {
+                modal.style.display = "flex";
+            });
+
+            closeModal.addEventListener("click", () => {
+                modal.style.display = "none";
+            });
+
+            window.addEventListener("click", (event) => {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            document.getElementById('phone').addEventListener('input', function (e) {
+                let value = e.target.value;
+                value = value.replace(/[^0-9+]/g, '');
+
+                if ((value.match(/\+/g) || []).length > 1) {
+                    value = value.replace(/\+/g, '');
+                }
+
+                if (value.length > 13) {
+                    value = value.substring(0, 13);
+                }
+                e.target.value = value;
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const firstNameInput = document.getElementById("firstName");
+                const lastNameInput = document.getElementById("lastName");
+                const emailInput = document.getElementById("email");
+                const phoneInput = document.getElementById("phone");
+
+                const firstNameError = document.getElementById("firstNameError");
+                const lastNameError = document.getElementById("lastNameError");
+                const emailError = document.getElementById("emailError");
+                const phoneError = document.getElementById("phoneError");
+
+                firstNameInput.addEventListener("blur", function () {
+                    if (this.value.trim() === "") {
+                        firstNameError.textContent = "* First Name is required.";
+                        firstNameError.style.color = "red";
+                    } else {
+                        firstNameError.textContent = "";
+                    }
+                });
+
+                lastNameInput.addEventListener("blur", function () {
+                    if (this.value.trim() === "") {
+                        lastNameError.textContent = "* Last Name is required.";
+                        lastNameError.style.color = "red";
+                    } else {
+                        lastNameError.textContent = "";
+                    }
+                });
+
+                emailInput.addEventListener("blur", function () {
+                    if (this.value.trim() === "") {
+                        emailError.textContent = "* Email is required.";
+                        emailError.style.color = "red";
+                    } else if (!/\S+@\S+\.\S+/.test(this.value)) {
+                        emailError.textContent = "* Please enter a valid email address.";
+                        emailError.style.color = "red";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                });
+
+                phoneInput.addEventListener("blur", function () {
+                    if (this.value.trim() === "") {
+                        phoneError.textContent = "* Phone Number is required.";
+                        phoneError.style.color = "red";
+                    } else {
+                        phoneError.textContent = "";
+                    }
+                });
+            });
+
+
+
+            document.getElementById("openModal").addEventListener("click", function() {
+                document.getElementById("uploadModal").style.display = "flex";
+            });
+            document.getElementById("closeModalUpload").addEventListener("click", function() {
+                document.getElementById("uploadModal").style.display = "none";
+            });
+            window.addEventListener("click", function(event) {
+                let modal = document.getElementById("uploadModal");
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            document.getElementById("openModalLink1").addEventListener("click", function() {
+                document.getElementById("linkModal").style.display = "flex";
+            });
+            document.getElementById("closeModalLink").addEventListener("click", function() {
+                document.getElementById("linkModal").style.display = "none";
+            });
+            window.addEventListener("click", function(event) {
+                let modal = document.getElementById("linkModal");
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            document.getElementById("openModalLink2").addEventListener("click", function() {
+                document.getElementById("linkModal").style.display = "flex";
+            });
+            document.getElementById("closeModalLink").addEventListener("click", function() {
+                document.getElementById("linkModal").style.display = "none";
+            });
+            window.addEventListener("click", function(event) {
+                let modal = document.getElementById("linkModal");
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+
+            document.querySelector(".copy-link-btn").addEventListener("click", function () {
+                const input = document.getElementById("link");
+
+                navigator.clipboard.writeText(input.value).then(() => {
+                    const message = document.getElementById("copy-message");
+
+                    if (!message.classList.contains("visible")) {
+                        message.classList.add("visible");
+                        setTimeout(() => message.classList.remove("visible"), 3000);
+                    }
+                }).catch(err => console.error("Failed to copy: ", err));
+            });
+
         </script>
 @endsection

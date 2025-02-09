@@ -16,7 +16,7 @@
                     <input type="email" id="email" name="email" placeholder="Enter email address" value="{{ old('email') }}">
                     <div id="emailError" class="error-message"></div>
                     @error('email')
-                    <div class="error-message">{{ $message }}</div>
+                    <div class="error-message">* {{ $message }}</div>
                     @enderror
 
                     <label for="password">Password <a href="{{route('password.request')}}" class="forgot">Forgot Password?</a></label>
@@ -28,7 +28,7 @@
                     </div>
                     <div id="passwordError" class="error-message"></div>
                     @error('password')
-                    <div class="error-message">{{ $message }}</div>
+                    <div class="error-message">* {{ $message }}</div>
                     @enderror
 
                     <div class="divider">or</div>
@@ -69,7 +69,7 @@
 
             emailInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    emailError.textContent = "Email is required.";
+                    emailError.textContent = "* Email is required.";
                     emailError.style.color = "red";
                 } else {
                     emailError.textContent = "";
@@ -78,7 +78,7 @@
 
             passwordInput.addEventListener("blur", function () {
                 if (this.value.trim() === "") {
-                    passwordError.textContent = "Password is required.";
+                    passwordError.textContent = "* Password is required.";
                     passwordError.style.color = "red";
                 } else {
                     passwordError.textContent = "";
