@@ -102,11 +102,16 @@ body {
     transform: scale(1.15);
 }
 
+.logout-form{
+    margin: 0;
+}
+
 #logout-btn{
     color: var(--grey);
     background-color: transparent;
     border: none;
     padding: 10px 12px;
+    margin-bottom: 0;
 }
 
 #logout-btn:hover {
@@ -117,7 +122,7 @@ body {
 }
 
 .logout{
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .main-content {
@@ -577,6 +582,7 @@ tr.selected {
         transparent 7px 14px
     ) 10;
     border-image-slice: 1;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .fa-cloud-upload-alt{
@@ -597,6 +603,50 @@ tr.selected {
     color: var(--blueHover);
     text-decoration: underline var(--blueHover);
     cursor: pointer;
+}
+
+.uploaded-file {
+    margin-top: 10px;
+    padding: 10px;
+    gap: 5px;
+    background-color: var(--light1);
+    border: 1px solid var(--grey);
+    border-radius: var(--br-3xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: rgb(237, 15, 15);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.remove-file-btn:hover{
+    color: rgb(227, 65, 65);
+}
+
+.uploaded-files {
+    margin-top: 20px;
+}
+
+.file-dropzone.highlight {
+    background-color: var(--light1Hover);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0, 123, 255, 0.3) 0px,
+        rgba(0, 123, 255, 0.3) 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    background-size: 12px 12px;
+    transition: background-color 0.3s, border 0.3s;
 }
 
 .file-validation{
@@ -801,3 +851,37 @@ tr.selected {
     display: block;
     color: red;
 }
+
+.alert-danger2 {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(216, 22, 22, 0.9);
+    color: white;
+    padding: 15px 25px;
+    font-size: 16px;
+    border-radius: var(--br-3xs);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.alert-danger2.visible {
+    display: flex;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+}
+
+
+
+
+
+

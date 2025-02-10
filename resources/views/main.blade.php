@@ -21,9 +21,12 @@
                         <button id="user-icon" class="user-icon">
                             <i class="fas fa-user-circle"></i>
                         </button>
-                        <button id="logout-btn">
-                            <i class="fas fa-sign-out-alt logout"></i>
-                        </button>
+                        <form class="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="button" id="logout-btn" class="logout-btn" onClick="confirmLogout()">
+                                <i class="fas fa-sign-out-alt logout"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -37,10 +40,14 @@
                         </div>
                         <div class="modal-description-upload">Add your documents here</div>
                         <div class="modal-body-upload">
-                            <div class="file-dropzone">
+                            <div class="file-dropzone" id="dropzone">
                                 <i class="fas fa-cloud-upload-alt"></i>
-                                <p class="browse-desc">Drag your file(s) or <span class="browse">browse</span></p>
+                                <p class="browse-desc">Drag your file(s) or <span class="browse" id="browseText">browse</span></p>
                                 <p class="file-validation">* Max 5 MB files are allowed</p>
+                                <input type="file" id="fileInput" style="display: none;">
+                                <i class="far fa-file-alt file-icon" style="display: none;"></i>
+                            </div>
+                            <div id="uploadedFiles" class="uploaded-files">
                             </div>
                             <div class="optional-section">
                                 <h2>Optional: <span class="optional">Add Comments and Deletion Date for File</span></h2>
@@ -51,6 +58,9 @@
                                 <input type="date" id="deletionDate">
                             </div>
                             <button class="add-file-btn">ADD FILE</button>
+                            <div class="alert-danger2" id="error-alert2">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,36 +326,19 @@
         </div>
 
 
+
+
         <script>
             let token = "{{ session('jwt_token') }}";
             if (token) {
                 sessionStorage.setItem("jwt_token", token);
             }
 
-            document.getElementById('logout-btn').addEventListener('click', function () {
-                if (!confirm('Are you sure you want to log out?')) {
-                    return;
+            function confirmLogout() {
+                if (confirm("Are you sure you want to log out?")) {
+                    document.querySelector('.logout-form').submit();
                 }
-
-                fetch('{{ route('logout') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = "{{ route('login') }}";
-                        } else {
-                            alert('Logout failed! Please try again.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Logout error:', error);
-                        alert('Something went wrong. Please try again.');
-                    });
-            });
+            }
 
             document.querySelectorAll('tr').forEach(row => {
                 row.addEventListener('click', function(event) {
@@ -395,11 +388,6 @@
                 modal.style.display = "none";
             });
 
-            window.addEventListener("click", (event) => {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
 
             document.getElementById('phone').addEventListener('input', function (e) {
                 let value = e.target.value;
@@ -466,19 +454,11 @@
                 });
             });
 
-
-
             document.getElementById("openModal").addEventListener("click", function() {
                 document.getElementById("uploadModal").style.display = "flex";
             });
             document.getElementById("closeModalUpload").addEventListener("click", function() {
                 document.getElementById("uploadModal").style.display = "none";
-            });
-            window.addEventListener("click", function(event) {
-                let modal = document.getElementById("uploadModal");
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
             });
 
             document.getElementById("openModalLink1").addEventListener("click", function() {
@@ -487,24 +467,13 @@
             document.getElementById("closeModalLink").addEventListener("click", function() {
                 document.getElementById("linkModal").style.display = "none";
             });
-            window.addEventListener("click", function(event) {
-                let modal = document.getElementById("linkModal");
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
+
 
             document.getElementById("openModalLink2").addEventListener("click", function() {
                 document.getElementById("linkModal").style.display = "flex";
             });
             document.getElementById("closeModalLink").addEventListener("click", function() {
                 document.getElementById("linkModal").style.display = "none";
-            });
-            window.addEventListener("click", function(event) {
-                let modal = document.getElementById("linkModal");
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
             });
 
 
@@ -520,6 +489,103 @@
                     }
                 }).catch(err => console.error("Failed to copy: ", err));
             });
+
+
+
+
+            document.getElementById('browseText').addEventListener('click', function() {
+                document.getElementById('fileInput').click();
+            });
+
+            document.getElementById('fileInput').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    if (document.getElementById('uploadedFiles').childElementCount > 0) {
+                        const errorAlert = document.getElementById('error-alert2');
+                        errorAlert.innerHTML = '<i class="fas fa-times-circle"></i> You can only upload one file.';
+                        errorAlert.classList.add('visible');
+                        setTimeout(() => {
+                            errorAlert.classList.remove('visible');
+                        }, 3000);
+                        return;
+                    }
+
+                    if (file.size > 5242880) {
+                        const errorAlert = document.getElementById('error-alert2');
+                        errorAlert.innerHTML = '<i class="fas fa-times-circle"></i> File size exceeds 5 MB.';
+                        errorAlert.classList.add('visible');
+                        setTimeout(() => {
+                            errorAlert.classList.remove('visible');
+                        }, 3000);
+                        return;
+                    }
+                    displayFile(file);
+                }
+            });
+
+            const dropzone = document.getElementById('dropzone');
+            dropzone.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                dropzone.classList.add('highlight');
+            });
+
+            dropzone.addEventListener('dragleave', function(event) {
+                dropzone.classList.remove('highlight');
+            });
+
+            dropzone.addEventListener('drop', function(event) {
+                event.preventDefault();
+                dropzone.classList.remove('highlight');
+                const file = event.dataTransfer.files[0];
+                if (file) {
+                    if (document.getElementById('uploadedFiles').childElementCount > 0) {
+                        const errorAlert = document.getElementById('error-alert2');
+                        errorAlert.innerHTML = '<i class="fas fa-times-circle"></i> You can only upload one file.';
+                        errorAlert.classList.add('visible');
+                        setTimeout(() => {
+                            errorAlert.classList.remove('visible');
+                        }, 3000);
+                        return;
+                    }
+
+                    if (file.size > 5242880) {
+                        const errorAlert = document.getElementById('error-alert2');
+                        errorAlert.innerHTML = '<i class="fas fa-times-circle"></i> File size exceeds 5 MB.';
+                        errorAlert.classList.add('visible');
+                        setTimeout(() => {
+                            errorAlert.classList.remove('visible');
+                        }, 3000);
+                        return;
+                    }
+                    displayFile(file);
+                }
+            });
+
+            function displayFile(file) {
+                const uploadedFilesDiv = document.getElementById('uploadedFiles');
+
+                const fileDiv = document.createElement('div');
+                fileDiv.classList.add('uploaded-file');
+
+                const fileIcon = document.createElement('i');
+                fileIcon.classList.add('far', 'fa-file-alt', 'file-icon');
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const removeButton = document.createElement('button');
+                removeButton.classList.add('remove-file-btn');
+                removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                removeButton.onclick = function () {
+                    uploadedFilesDiv.removeChild(fileDiv);
+                };
+
+                fileDiv.appendChild(fileIcon);
+                fileDiv.appendChild(fileName);
+                fileDiv.appendChild(removeButton);
+
+                uploadedFilesDiv.appendChild(fileDiv);
+            }
 
         </script>
 @endsection

@@ -44,7 +44,22 @@
             }
 
             .alert.alert-danger {
+                font-family: var(--h2-b), sans-serif;
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
                 background: rgba(220, 53, 69);
+                color: white;
+                padding: 15px 25px;
+                font-size: 16px;
+                border-radius: var(--br-3xs);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+                z-index: 1001;
+                border: none;
             }
 
             @keyframes fadeInOut {

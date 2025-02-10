@@ -57,7 +57,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $token = session('jwt_token');
-        $result = $this->authService->logoutUser($token);
+        $this->authService->logoutUser($token);
 
         session()->forget('jwt_token');
         Auth::logout();
