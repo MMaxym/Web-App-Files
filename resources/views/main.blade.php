@@ -335,21 +335,15 @@
                     }
                 })
                     .then(response => {
-                        if (response.redirected) {
-                            sessionStorage.clear();
-                            window.location.href = response.url;
+                        if (response.ok) {
+                            window.location.href = "{{ route('login') }}";
                         } else {
-                            return response.json();
-                        }
-                    })
-                    .then(data => {
-                        if (data && data.error) {
-                            alert('Logout error: ' + data.error);
+                            alert('Logout failed! Please try again.');
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        alert('Something went wrong.\nPlease try again...');
+                        console.error('Logout error:', error);
+                        alert('Something went wrong. Please try again.');
                     });
             });
 

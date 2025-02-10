@@ -27,4 +27,3 @@ Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showRese
 Route::middleware(['auth'])->group(function () {
 Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
 });
-
