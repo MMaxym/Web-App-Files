@@ -14,7 +14,7 @@
                             <span class="icon-circle"><i class="fas fa-plus"></i></span> Add file
                         </button>
                         <button class="btn-else"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>
+{{--                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>--}}
                         <button class="btn-else"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
                     <div class="account">
@@ -131,6 +131,12 @@
 
                                 <button type="submit" class="save-btn">SAVE CHANGES</button>
                             </form>
+                        </div>
+                        <div class="alert-success3" id="success-alert3">
+                            <i class="fas fa-check-circle"></i> <span id="success-message3"></span>
+                        </div>
+                        <div class="alert-danger2" id="error-alert3">
+                            <i class="fas fa-times-circle"></i> <span id="error-message3"></span>
                         </div>
                     </div>
                 </div>
@@ -335,6 +341,7 @@
 
         <script>
             const uploadUrl = "{{ route('upload.file') }}";
+            const userEditUrl = "{{route('user.update')}}";
         </script>
         <script src="{{ asset('js/main.js') }}"></script>
 

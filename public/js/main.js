@@ -336,3 +336,55 @@ function showErrorMessage(message) {
         errorAlert.classList.remove('visible');
     }, 3000);
 }
+
+document.querySelector('.form-edit').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch(userEditUrl, {
+        method: "PUT",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.user) {
+                const successAlert = document.getElementById("success-alert3");
+                const successMessage = document.getElementById("success-message3");
+
+                successMessage.textContent = "User updated successfully!";
+                successAlert.classList.add("visible");
+
+                setTimeout(() => {
+                    successAlert.classList.remove("visible");
+                    location.reload();
+                }, 1500);
+
+
+            } else {
+                showErrorMessage3(data.error);
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
+
+    function showErrorMessage3(message) {
+        const errorAlert = document.getElementById('error-alert3');
+        const errorMessage = document.getElementById('error-message3');
+        errorMessage.textContent = message;
+        errorAlert.classList.add('visible');
+        setTimeout(() => {
+            errorAlert.classList.remove('visible');
+        }, 3000);
+    }
+});
