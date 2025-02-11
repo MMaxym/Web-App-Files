@@ -16,21 +16,19 @@
                     <div class="success-message">{{ session('status') }}</div>
                 @endif
 
-                @if ($errors->any())
-                    <div class="error-message">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
 
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Enter email address" required value="{{ old('email') }}" >
                 <div id="emailError" class="error-message"></div>
+                @if ($errors->any())
+                    <div class="error-message">
+                        @foreach ($errors->all() as $error)
+                            <p>* {{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
 
-                <button type="submit" class="reset-btn">Send Password Reset Link</button>
+                <button type="submit" class="reset-btn">SEND PASSWORD RESET LINK</button>
 
                 <div class="signup">
                     <p>Remember your password? <a href="{{ route('login') }}">Log In</a></p>
@@ -39,24 +37,7 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const emailInput = document.getElementById("email");
-            const emailError = document.getElementById("emailError");
-
-            emailInput.addEventListener("blur", function () {
-                if (this.value.trim() === "") {
-                    emailError.textContent = "Email is required.";
-                    emailError.style.color = "red";
-                } else if (!this.value.includes('@')) {
-                    emailError.textContent = "Please enter a valid email address.";
-                    emailError.style.color = "red";
-                } else {
-                    emailError.textContent = "";
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/auth/email.js') }}"></script>
 
 @endsection
 

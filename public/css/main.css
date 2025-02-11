@@ -213,7 +213,13 @@ body {
     text-align: left;
     border-radius: var(--br-3xs);
     color: var(--dark1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
 .stat-icon1 {
@@ -880,8 +886,31 @@ tr.selected {
     100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
 }
 
+.alert-success2 {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+    padding: 15px 25px;
+    font-size: 16px;
+    border-radius: var(--br-3xs);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
 
+.alert-success2.visible {
+    display: flex;
+    animation: fadeInOut 3s ease-in-out;
+}
 
-
-
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+}
 

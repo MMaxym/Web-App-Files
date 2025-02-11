@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\GoogleAuthService;
+use App\Services\Auth\GoogleAuthService;
 
 class GoogleAuthController extends Controller
 {

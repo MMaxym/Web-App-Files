@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Files\FileController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showRese
 Route::middleware(['auth'])->group(function () {
 Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
 });
+
+Route::post('/upload-file', [FileController::class, 'upload'])->name('upload.file');

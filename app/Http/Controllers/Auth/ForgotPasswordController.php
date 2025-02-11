@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\ForgotPasswordService;
+use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
