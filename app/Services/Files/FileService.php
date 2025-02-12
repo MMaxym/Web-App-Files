@@ -40,4 +40,31 @@ class FileService
 
         return ['error' => 'No file uploaded'];
     }
+
+    public function getUserFiles()
+    {
+        $userId = auth()->id();
+
+        return File::where('user_id', $userId)
+            ->select('id', 'file_name', 'file_path', 'comment', 'expiration_date', 'views_count', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($file) {
+                return [
+                    'id' => $file->id,
+                    'file_name' => $file->file_name,
+                    'file_path' => $file->file_path,
+                    'comment' => $file->comment ?? 'No comment',
+                    'expiration_date' => $file->expiration_date ? $file->expiration_date->format('d.m.Y') : '-',
+                    'views_count' => $file->views_count,
+                    'created_at' => $file->created_at->format('d.m.Y'),
+                ];
+            });
+    }
+
+    public function getUserFilesCount()
+    {
+        $userId = auth()->id();
+        return File::where('user_id', $userId)->count();
+    }
 }

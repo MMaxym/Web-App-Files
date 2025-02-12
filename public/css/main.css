@@ -316,6 +316,7 @@ td {
 tbody {
     display: block;
     max-height: 525px;
+    min-height: 525px;
     overflow-y: auto;
     width: 100%;
 }

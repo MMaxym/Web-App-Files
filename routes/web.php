@@ -27,7 +27,7 @@ Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name(
 Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 
 Route::middleware(['auth'])->group(function () {
-Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
+    Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
 });
 
 Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
