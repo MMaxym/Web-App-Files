@@ -293,14 +293,16 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
 
     if (fileInput.files.length > 0) {
         formData.set('file', fileInput.files[0]);
-    } else if (droppedFile) {
+    }
+    else if (droppedFile) {
         formData.set('file', droppedFile);
-    } else {
+    }
+    else {
         showErrorMessage("No file selected.");
         return;
     }
 
-    fetch(uploadUrl, {
+    fetch(`/files/upload-file`, {
         method: "POST",
         body: formData,
         headers: {
@@ -342,7 +344,7 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
 
     const formData = new FormData(this);
 
-    fetch(userEditUrl, {
+    fetch(`/users/update`, {
         method: "PUT",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -388,3 +390,85 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
         }, 3000);
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    let selectedFileId = null;
+
+    document.querySelectorAll(".file-row").forEach(row => {
+        row.addEventListener("click", function (event) {
+            document.querySelectorAll(".file-row").forEach(r => r.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedFileId = this.dataset.id;
+            event.stopPropagation();
+        });
+    });
+
+    document.getElementById('btn-delete').addEventListener("click", function () {
+        if (!selectedFileId) {
+            let errorMessage = "Select a file to delete!";
+            let errorAlert = document.getElementById('error-alert5');
+            errorAlert.classList.add('visible');
+
+            document.getElementById('error-message5').innerText = errorMessage;
+            errorAlert.style.display = 'block';
+
+            setTimeout(function() {
+                errorAlert.style.display = 'none';
+                errorAlert.classList.remove('visible');
+            }, 2000);
+            return;
+        }
+        if (confirm("Are you sure you want to delete this file?")) {
+            fetch(`/files/${selectedFileId}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+
+                        let successMessage = "Select a file to delete!";
+                        let successAlert = document.getElementById('success-alert5');
+                        successAlert.classList.add('visible');
+
+                        document.getElementById('success-message5').innerText = successMessage;
+                        successAlert.style.display = 'block';
+
+                        setTimeout(function() {
+                            successAlert.style.display = 'none';
+                            successAlert.classList.remove('visible');
+                            location.reload();
+                        }, 2000);
+
+                    }
+                    else {
+                        let errorMessage2 = "File deletion error!";
+                        let errorAlert = document.getElementById('error-alert5');
+                        errorAlert.classList.add('visible');
+
+                        document.getElementById('error-message').innerText = errorMessage2;
+                        errorAlert.style.display = 'block';
+
+                        setTimeout(function() {
+                            errorAlert.style.display = 'none';
+                            errorAlert.classList.remove('visible');
+                        }, 2000);
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest('.file-row')) {
+            document.querySelectorAll(".file-row").forEach(row => row.classList.remove("selected"));
+            selectedFileId = null;
+        }
+    });
+});
+
+
+

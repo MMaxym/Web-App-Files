@@ -4,6 +4,7 @@ namespace App\Services\Files;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
@@ -66,5 +67,12 @@ class FileService
     {
         $userId = auth()->id();
         return File::where('user_id', $userId)->count();
+    }
+
+    public function deleteFile($fileId)
+    {
+        $file = File::where('user_id', auth()->id())->findOrFail($fileId);
+        $file->delete();
+        return ['message' => 'File moved to archive'];
     }
 }

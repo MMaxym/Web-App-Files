@@ -28,8 +28,11 @@ Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showRese
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
+
+    Route::put('/users/update', [UserController::class, 'update'])->name('user.update');
+
+    Route::post('/files/upload-file', [FileController::class, 'upload'])->name('upload.file');
+    Route::delete('/files/{id}', [FileController::class, 'destroy'])->name('files.destroy');
 });
 
-Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 
-Route::post('/upload-file', [FileController::class, 'upload'])->name('upload.file');

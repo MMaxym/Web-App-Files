@@ -21,4 +21,10 @@ class FileController extends Controller
 
         return response()->json($response, isset($response['error']) ? 400 : 201);
     }
+
+    public function destroy($id)
+    {
+        $response = $this->fileService->deleteFile($id);
+        return response()->json($response);
+    }
 }
