@@ -13,8 +13,8 @@
                         <button class="btn-add" id="openModal">
                             <span class="icon-circle"><i class="fas fa-plus"></i></span> Add file
                         </button>
-                        <button class="btn-else"><i class="fas fa-copy"></i> Copy</button>
-{{--                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>--}}
+                        <button class="btn-else" id="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                        {{--                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>--}}
                         <button class="btn-else" id="btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
                     <div class="account">
@@ -29,7 +29,6 @@
                         </form>
                     </div>
                 </div>
-
 
                 <div class="alert-danger5" id="error-alert5">
                     <i class="fas fa-times-circle"></i> <span id="error-message5"></span>
@@ -81,7 +80,6 @@
                         </form>
                     </div>
                 </div>
-
 
                 <div id="dropdown" class="dropdown-content">
                     <div class="account-information">
@@ -256,6 +254,5 @@
                 </div>
             </div>
         </div>
-
         <script src="{{ asset('js/main.js') }}"></script>
 @endsection

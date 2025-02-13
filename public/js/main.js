@@ -278,8 +278,6 @@ function displayFile(file) {
     uploadedFilesDiv.appendChild(fileDiv);
 }
 
-
-
 document.addEventListener("DOMContentLoaded", function() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('deletionDate').setAttribute('min', today);
@@ -470,5 +468,61 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    let selectedFileId = null;
+    let selectedFileName = null;
 
+    document.querySelectorAll(".file-row").forEach(row => {
+        row.addEventListener("click", function (event) {
+            document.querySelectorAll(".file-row").forEach(r => r.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedFileId = this.dataset.id; // Отримуємо ID файлу
+            selectedFileName = this.querySelector('.file-name').innerText; // Отримуємо назву файлу
+            event.stopPropagation();
+        });
+    });
+
+    document.getElementById('copy-btn').addEventListener("click", function () {
+        if (!selectedFileName) {
+            let errorMessage = "Select a file to copy the name!";
+            let errorAlert2 = document.getElementById('error-alert5');
+            errorAlert2.classList.add('visible');
+            document.getElementById('error-message5').innerText = errorMessage;
+            errorAlert2.style.display = 'block';
+
+            setTimeout(function() {
+                errorAlert2.style.display = 'none';
+                errorAlert2.classList.remove('visible');
+            }, 2000);
+            return;
+        }
+
+        navigator.clipboard.writeText(selectedFileName)
+            .then(() => {
+                let successMessage2 = "File name copied to clipboard!";
+                let successAlert2 = document.getElementById('success-alert5');
+                successAlert2.classList.add('visible');
+
+                document.getElementById('success-message5').innerText = successMessage2;
+                successAlert2.style.display = 'block';
+
+                setTimeout(function() {
+                    successAlert2.style.display = 'none';
+                    successAlert2.classList.remove('visible');
+                }, 2000);
+            })
+            .catch(error => {
+                console.error("Failed to copy text: ", error);
+                alert("Failed to copy file name.");
+            });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest('.file-row')) {
+            document.querySelectorAll(".file-row").forEach(row => row.classList.remove("selected"));
+            selectedFileId = null;
+            selectedFileName = null;
+        }
+    });
+});
 
