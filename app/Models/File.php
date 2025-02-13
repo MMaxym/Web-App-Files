@@ -42,4 +42,10 @@ class File extends Model
         return $this->hasMany(FileLink::class);
     }
 
+    protected static function booted()
+    {
+        static::deleted(function ($file) {
+            $file->fileLinks()->delete();
+        });
+    }
 }

@@ -13,9 +13,9 @@
                         <button class="btn-add" id="openModal">
                             <span class="icon-circle"><i class="fas fa-plus"></i></span> Add file
                         </button>
-                        <button class="btn-else" id="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="btn-else" id="copy-btn"><i class="fas fa-copy"></i> Copy file name</button>
                         {{--                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>--}}
-                        <button class="btn-else" id="btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
+                        <button class="btn-else" id="btn-delete"><i class="fas fa-trash-alt"></i> Delete file</button>
                     </div>
                     <div class="account">
                         <button id="user-icon" class="user-icon">
@@ -159,7 +159,7 @@
                             <i class="fas fa-link"></i> Generate multiple <span>link</span>
                         </button>
                         <div class="total-count">
-                            <span>Total Count</span>
+                            <span>Total Count Files</span>
                             <strong>{{$countFiles}}</strong>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                             <div class="modal-body-link">
                                 <div class="link-section">
                                     <label for="link">Generate Link</label>
-                                    <input type="text" id="link" value="http://localhost/files/name-file.format/xdvpscvpdhbepwfjr9uvfvnru9e8urf0we8fhfvob" readonly>
+                                    <input type="text" id="link"  readonly>
                                 </div>
                                 <button class="copy-link-btn">
                                     <i class="fas fa-copy"></i> COPY LINK
@@ -254,5 +254,6 @@
                 </div>
             </div>
         </div>
+
         <script src="{{ asset('js/main.js') }}"></script>
 @endsection

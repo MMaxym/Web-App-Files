@@ -34,7 +34,7 @@ body {
 .toolbar {
     display: flex;
     gap: 30px;
-    margin-right: 25%;
+    margin-right: 16.5%;
 }
 
 .account {
@@ -982,7 +982,7 @@ tr.selected {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(216, 22, 22, 0.9);
+    background: rgba(216, 22, 22);
     color: white;
     padding: 15px 25px;
     font-size: 16px;
@@ -1010,7 +1010,7 @@ tr.selected {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(40, 167, 69, 0.9);
+    background: rgba(40, 167, 69);
     color: white;
     padding: 15px 25px;
     font-size: 16px;

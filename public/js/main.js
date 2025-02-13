@@ -130,20 +130,19 @@ document.getElementById("closeModalUpload").addEventListener("click", function()
     document.getElementById("uploadModal").style.display = "none";
 });
 
-document.getElementById("openModalLink1").addEventListener("click", function() {
-    document.getElementById("linkModal").style.display = "flex";
-});
-document.getElementById("closeModalLink").addEventListener("click", function() {
-    document.getElementById("linkModal").style.display = "none";
-});
+// document.getElementById("openModalLink1").addEventListener("click", function() {
+//     document.getElementById("linkModal").style.display = "flex";
+// });
+// document.getElementById("closeModalLink").addEventListener("click", function() {
+//     document.getElementById("linkModal").style.display = "none";
+// });
 
-
-document.getElementById("openModalLink2").addEventListener("click", function() {
-    document.getElementById("linkModal").style.display = "flex";
-});
-document.getElementById("closeModalLink").addEventListener("click", function() {
-    document.getElementById("linkModal").style.display = "none";
-});
+// document.getElementById("openModalLink2").addEventListener("click", function() {
+//     document.getElementById("linkModal").style.display = "flex";
+// });
+// document.getElementById("closeModalLink").addEventListener("click", function() {
+//     document.getElementById("linkModal").style.display = "none";
+// });
 
 
 document.querySelector(".copy-link-btn").addEventListener("click", function () {
@@ -476,8 +475,8 @@ document.addEventListener("DOMContentLoaded", function () {
         row.addEventListener("click", function (event) {
             document.querySelectorAll(".file-row").forEach(r => r.classList.remove("selected"));
             this.classList.add("selected");
-            selectedFileId = this.dataset.id; // Отримуємо ID файлу
-            selectedFileName = this.querySelector('.file-name').innerText; // Отримуємо назву файлу
+            selectedFileId = this.dataset.id;
+            selectedFileName = this.querySelector('.file-name').innerText;
             event.stopPropagation();
         });
     });
@@ -526,3 +525,70 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    let selectedFileLinkId = null;
+
+    document.querySelectorAll(".file-row").forEach(row => {
+        row.addEventListener("click", function (event) {
+            document.querySelectorAll(".file-row").forEach(r => r.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedFileLinkId = this.dataset.id;
+            event.stopPropagation();
+        });
+    });
+
+    function generateLink(type) {
+        if (!selectedFileLinkId) {
+            let errorMessage3 = "Select a file to generate link!";
+            let errorAlert3 = document.getElementById('error-alert5');
+            errorAlert3.classList.add('visible');
+            document.getElementById('error-message5').innerText = errorMessage3;
+            errorAlert3.style.display = 'block';
+
+            setTimeout(function() {
+                errorAlert3.style.display = 'none';
+                errorAlert3.classList.remove('visible');
+            }, 2000);
+
+            return;
+        }
+
+        fetch(`/files/${selectedFileLinkId}/generate-link`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ type })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("link").value = data.url;
+                document.getElementById("linkModal").style.display = "flex";
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    document.getElementById("openModalLink1").addEventListener("click", function() {
+        generateLink("temporary");
+    });
+
+    document.getElementById("openModalLink2").addEventListener("click", function() {
+        generateLink("public");
+    });
+
+    document.getElementById("closeModalLink").addEventListener("click", function () {
+        document.getElementById("linkModal").style.display = "none";
+        location.reload();
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest('.file-row') && !event.target.closest('#linkModal') &&
+            !event.target.closest('#openModalLink1') && !event.target.closest('#openModalLink2')) {
+            document.querySelectorAll(".file-row").forEach(row => row.classList.remove("selected"));
+            selectedFileLinkId = null;
+        }
+    });
+});
