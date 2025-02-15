@@ -63,10 +63,12 @@ class FileService
             });
     }
 
-    public function getUserFilesCount()
+    public function getUserFilesCount(): int
     {
         $userId = auth()->id();
-        return File::where('user_id', $userId)->count();
+        return File::where('user_id', $userId)
+            ->whereNull('deleted_at')
+            ->count();
     }
 
     public function deleteFile($fileId)
@@ -74,5 +76,29 @@ class FileService
         $file = File::where('user_id', auth()->id())->findOrFail($fileId);
         $file->delete();
         return ['message' => 'File moved to archive'];
+    }
+
+    public function getTotalViews(): int
+    {
+        $userId = auth()->id();
+        return File::where('user_id', $userId)
+        ->sum('views_count');
+    }
+
+    public function getExistingFilesCount(): int
+    {
+        $userId = auth()->id();
+        return File::where('user_id', $userId)
+            ->whereNull('deleted_at')
+            ->count();
+    }
+
+    public function getDeletedFilesCount(): int
+    {
+        $userId = auth()->id();
+        return File::withTrashed()
+            ->where('user_id', $userId)
+            ->whereNotNull('deleted_at')
+            ->count();
     }
 }

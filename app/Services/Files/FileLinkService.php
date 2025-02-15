@@ -5,6 +5,7 @@ namespace App\Services\Files;
 use App\Enums\FileLinkType;
 use App\Models\File;
 use App\Models\FileLink;
+use Illuminate\Support\Facades\DB;
 
 class FileLinkService
 {
@@ -38,5 +39,34 @@ class FileLinkService
             $link->deactivate();
         }
         return $link->file;
+    }
+
+    public function getTotalDisposableLinksCount(): int
+    {
+        $userId = auth()->id();
+        return FileLink::whereIn('file_id', function ($query) use ($userId) {
+                $query->select('id')
+                    ->from('files')
+                    ->where('user_id', $userId);
+            })
+            ->where('type', FileLinkType::TEMPORARY)
+            ->whereNull('deleted_at')
+            ->count();
+    }
+
+
+    public function getUsedDisposableLinksCount(): int
+    {
+        $userId = auth()->id();
+
+        return FileLink::whereIn('file_id', function ($query) use ($userId) {
+            $query->select('id')
+                ->from('files')
+                ->where('user_id', $userId);
+        })
+            ->where('type', FileLinkType::TEMPORARY)
+            ->where('is_active', false)
+            ->whereNull('deleted_at')
+            ->count();
     }
 }

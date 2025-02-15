@@ -149,7 +149,6 @@
                     </div>
                 </div>
 
-
                 <div class="main-content">
                     <div class="sidebar">
                         <button class="sidebar-btn"  id="openModalLink1">
@@ -194,28 +193,28 @@
                                 <i class="far fa-eye stat-icon1"></i>
                                 <div class="card-content">
                                     <span class="stat-title">Total Views</span>
-                                    <span class="stat-value">365</span>
+                                    <span class="stat-value">{{ $totalViews }}</span>
                                 </div>
                             </div>
                             <div class="stat-box">
                                 <i class="fas fa-file-alt stat-icon2"></i>
                                 <div class="card-content">
                                     <span class="stat-title">Count of existing files</span>
-                                    <span class="stat-value">177</span>
+                                    <span class="stat-value">{{ $existingFilesCount }}</span>
                                 </div>
                             </div>
                             <div class="stat-box">
                                 <i class="fas fa-file-excel stat-icon3"></i>
                                 <div class="card-content">
                                     <span class="stat-title">Count of deleted files</span>
-                                    <span class="stat-value">211</span>
+                                    <span class="stat-value">{{ $deletedFilesCount }}</span>
                                 </div>
                             </div>
                             <div class="stat-box">
                                 <i class="fas fa-link stat-icon4"></i>
                                 <div class="card-content">
                                     <span class="stat-title">Total of disposable links</span>
-                                    <span class="stat-value">116 (87 used)</span>
+                                    <span class="stat-value">{{ $totalDisposableLinks }} ({{ $usedDisposableLinks }} used)</span>
                                 </div>
                             </div>
                         </div>

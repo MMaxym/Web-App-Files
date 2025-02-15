@@ -36,7 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/files/upload-file', [FileController::class, 'upload'])->name('upload.file');
     Route::delete('/files/{id}', [FileController::class, 'destroy'])->name('files.destroy');
     Route::post('/files/{id}/generate-link', [FileLinkController::class, 'generateLink']);
-    Route::get('/files/view/{fileName}/{token}', [FileLinkController::class, 'viewFile']);
 });
 
-
+Route::get('/files/view/{fileName}/{token}', [FileLinkController::class, 'viewFile']);
