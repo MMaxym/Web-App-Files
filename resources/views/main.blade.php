@@ -14,7 +14,6 @@
                             <span class="icon-circle"><i class="fas fa-plus"></i></span> Add file
                         </button>
                         <button class="btn-else" id="copy-btn"><i class="fas fa-copy"></i> Copy file name</button>
-                        {{--                        <button class="btn-else"><i class="fas fa-file-signature"></i> Rename</button>--}}
                         <button class="btn-else" id="btn-delete"><i class="fas fa-trash-alt"></i> Delete file</button>
                     </div>
                     <div class="account">
@@ -33,7 +32,6 @@
                 <div class="alert-danger5" id="error-alert5">
                     <i class="fas fa-times-circle"></i> <span id="error-message5"></span>
                 </div>
-
                 <div class="alert-success5" id="success-alert5">
                     <i class="fas fa-check-circle"></i> <span id="success-message5"></span>
                 </div>
@@ -249,10 +247,39 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <div id="fileModal" class="modal">
+                            <div class="m-content-link">
+                                <div class="modal-header-link">
+                                    <h2>File Information</h2>
+                                    <span class="modalClose" id="closeModalBtn">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                </div>
+                                <div class="modal-description-link">Detailed information about the selected file</div>
+                                <div class="modal-body-link-file">
+                                    <div class="link-section-name">
+                                        <i class="far fa-file-alt file-icon"></i>
+                                        <span id="fileName"></span>
+                                    </div>
+                                    <div class="link-section">
+                                        <label for="fileDescription">Comment:</label>
+                                        <span id="fileDescription">No Comment</span>
+                                    </div>
+                                    <div class="link-section">
+                                        <label for="fileExpirationDate">Expiration Date:</label>
+                                        <span id="fileExpirationDate">No date expiration</span>
+                                    </div>
+                                    <div class="link-section">
+                                        <label for="fileViews">Views:</label>
+                                        <span id="fileViews">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <script src="{{ asset('js/main.js') }}"></script>
 @endsection

@@ -27,4 +27,10 @@ class FileController extends Controller
         $response = $this->fileService->deleteFile($id);
         return response()->json($response);
     }
+
+    public function getFileDetails($fileId)
+    {
+        $result = $this->fileService->getFileDetails($fileId);
+        return response()->json($result);
+    }
 }

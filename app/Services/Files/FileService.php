@@ -101,4 +101,16 @@ class FileService
             ->whereNotNull('deleted_at')
             ->count();
     }
+
+    public function getFileDetails($fileId)
+    {
+        $file = File::find($fileId);
+        if ($file) {
+            return [
+                'success' => true,
+                'file' => $file,
+            ];
+        }
+        return ['success' => false];
+    }
 }

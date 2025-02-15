@@ -130,21 +130,6 @@ document.getElementById("closeModalUpload").addEventListener("click", function()
     document.getElementById("uploadModal").style.display = "none";
 });
 
-// document.getElementById("openModalLink1").addEventListener("click", function() {
-//     document.getElementById("linkModal").style.display = "flex";
-// });
-// document.getElementById("closeModalLink").addEventListener("click", function() {
-//     document.getElementById("linkModal").style.display = "none";
-// });
-
-// document.getElementById("openModalLink2").addEventListener("click", function() {
-//     document.getElementById("linkModal").style.display = "flex";
-// });
-// document.getElementById("closeModalLink").addEventListener("click", function() {
-//     document.getElementById("linkModal").style.display = "none";
-// });
-
-
 document.querySelector(".copy-link-btn").addEventListener("click", function () {
     const input = document.getElementById("link");
 
@@ -590,5 +575,107 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".file-row").forEach(row => row.classList.remove("selected"));
             selectedFileLinkId = null;
         }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const fileRows = document.querySelectorAll('.file-row');
+    if (fileRows.length > 0) {
+        fileRows.forEach(row => {
+            row.addEventListener('dblclick', function () {
+                const fileId = this.getAttribute('data-id');
+                openFileModal(fileId);
+            });
+        });
+    }
+
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            closeModalFiles();
+        });
+    }
+});
+
+function openFileModal(fileId) {
+    fetch(`/files/${fileId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('File not found or server error');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                document.getElementById('fileName').textContent = data.file.file_name;
+
+                const fileComment = data.file.comment ? data.file.comment : 'No Comment';
+                document.getElementById('fileDescription').textContent = fileComment;
+
+                document.getElementById('fileViews').textContent = data.file.views_count;
+
+                const expirationDate = data.file.expiration_date;
+                let formattedDate = 'No date expiration';
+
+                if (expirationDate) {
+                    const dateObj = new Date(expirationDate);
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const year = dateObj.getFullYear();
+                    formattedDate = `${day}.${month}.${year}`;
+                }
+                document.getElementById('fileExpirationDate').textContent = formattedDate;
+
+                document.getElementById('fileModal').style.display = 'flex';
+            } else {
+                console.error('Error: File details could not be retrieved.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file details:', error);
+            alert('Error loading file details. Please try again later.');
+        });
+}
+
+function closeModalFiles() {
+    const modal = document.getElementById('fileModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const tooltip = document.createElement("div");
+    tooltip.className = "custom-tooltip";
+    tooltip.innerText = "Double-click to see file details";
+    document.body.appendChild(tooltip);
+
+    let hideTimeout;
+
+    document.querySelectorAll(".file-row").forEach(row => {
+        row.addEventListener("mouseenter", (event) => {
+            tooltip.style.opacity = "1";
+            tooltip.style.top = `${event.clientY + 15}px`;
+            tooltip.style.left = `${event.clientX + 15}px`;
+
+            hideTimeout = setTimeout(() => {
+                tooltip.style.opacity = "0";
+            }, 1000);
+        });
+
+        row.addEventListener("mousemove", (event) => {
+            tooltip.style.top = `${event.clientY + 15}px`;
+            tooltip.style.left = `${event.clientX + 15}px`;
+
+            clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(() => {
+                tooltip.style.opacity = "0";
+            }, 1000);
+        });
+
+        row.addEventListener("mouseleave", () => {
+            tooltip.style.opacity = "0";
+            clearTimeout(hideTimeout);
+        });
     });
 });
