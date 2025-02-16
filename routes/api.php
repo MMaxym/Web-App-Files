@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\Api\AuthApiController;
 use App\Http\Controllers\Auth\Api\ForgotPasswordApiController;
+use App\Http\Controllers\Users\Api\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,4 @@ Route::prefix('auth')->group(function () {
     Route::post('/password/reset', [ForgotPasswordApiController::class, 'resetPassword']);
 });
 
-
+Route::put('/users/{id}', [UserApiController::class, 'update']);
