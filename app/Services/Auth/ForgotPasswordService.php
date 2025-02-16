@@ -2,9 +2,11 @@
 
 namespace App\Services\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordService
 {
@@ -15,14 +17,36 @@ class ForgotPasswordService
         ]);
 
         if ($validator->fails()) {
-            return ['status' => 'error', 'message' => $validator->errors()];
+            return [
+                'status' => 'error',
+                'message' => $validator->errors(),
+                'http_code' => Response::HTTP_BAD_REQUEST,
+            ];
+        }
+
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user) {
+            return [
+                'status' => 'error',
+                'message' => 'User with this email does not exist.',
+                'http_code' => Response::HTTP_NOT_FOUND,
+            ];
         }
 
         $response = Password::sendResetLink($data);
 
         return $response == Password::RESET_LINK_SENT
-            ? ['status' => 'success', 'message' => 'Password reset link has been sent to your email address.']
-            : ['status' => 'error', 'message' => 'Failed to send the password reset link. Please try again.'];
+            ? [
+                'status' => 'success',
+                'message' => 'Password reset link has been sent to your email address.',
+                'http_code' => Response::HTTP_OK,
+            ]
+            : [
+                'status' => 'error',
+                'message' => 'Failed to send the password reset link. Please try again.',
+                'http_code' => Response::HTTP_SERVICE_UNAVAILABLE,
+            ];
     }
 
     public function resetPassword($data)
@@ -34,7 +58,11 @@ class ForgotPasswordService
         ]);
 
         if ($validator->fails()) {
-            return ['status' => 'error', 'message' => $validator->errors()];
+            return [
+                'status' => 'error',
+                'message' => $validator->errors(),
+                'http_code' => Response::HTTP_BAD_REQUEST,
+            ];
         }
 
         $response = Password::reset($data, function ($user, $password) {
@@ -43,7 +71,15 @@ class ForgotPasswordService
         });
 
         return $response == Password::PASSWORD_RESET
-            ? ['status' => 'success', 'message' => 'Password updated successfully.']
-            : ['status' => 'error', 'message' => trans($response)];
+            ? [
+                'status' => 'success',
+                'message' => 'Password updated successfully.',
+                'http_code' => Response::HTTP_OK,
+            ]
+            : [
+                'status' => 'error',
+                'message' => trans($response),
+                'http_code' => Response::HTTP_BAD_REQUEST,
+            ];
     }
 }
