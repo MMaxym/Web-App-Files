@@ -51,8 +51,11 @@ class AuthService
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return ['errors' => ['email' => 'Invalid email or password']];
+        if (!$user) {
+            return ['errors' => ['email' => 'Email not found']];
+        }
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return ['errors' => ['password' => 'Incorrect password']];
         }
 
         $token = JWTAuth::fromUser($user);

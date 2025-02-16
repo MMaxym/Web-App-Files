@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Auth\Web\AuthController;
+use App\Http\Controllers\Auth\Web\ForgotPasswordController;
+use App\Http\Controllers\Auth\Web\GoogleAuthController;
 use App\Http\Controllers\Files\FileController;
 use App\Http\Controllers\Files\FileLinkController;
 use App\Http\Controllers\MainPageController;
