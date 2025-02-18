@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
-    public function uploadFile(Request $request)
+    public function uploadFile(Request $request, $userId)
     {
         $request->validate([
             'file' => 'required|file|max:5120',
@@ -25,7 +25,7 @@ class FileService
             $file->storeAs($uniqueFilePath);
 
             $uploadedFile = File::create([
-                'user_id' => auth()->id(),
+                'user_id' => $userId,
                 'file_name' => $fileName,
                 'file_path' => $uniqueFilePath,
                 'comment' => $request->comment,
@@ -34,18 +34,17 @@ class FileService
             ]);
 
             return [
+                'success' => true,
                 'message' => 'File uploaded successfully!',
                 'file' => $uploadedFile
             ];
         }
 
-        return ['error' => 'No file uploaded'];
+        return ['success' => false, 'error' => 'No file uploaded'];
     }
 
-    public function getUserFiles()
+    public function getUserFiles($userId)
     {
-        $userId = auth()->id();
-
         return File::where('user_id', $userId)
             ->select('id', 'file_name', 'file_path', 'comment', 'expiration_date', 'views_count', 'created_at')
             ->orderBy('created_at', 'desc')
@@ -63,39 +62,28 @@ class FileService
             });
     }
 
-    public function getUserFilesCount(): int
+    public function getUserFilesCount($userId): int
     {
-        $userId = auth()->id();
         return File::where('user_id', $userId)
             ->whereNull('deleted_at')
             ->count();
     }
 
-    public function deleteFile($fileId)
+    public function getTotalViews($userId): int
     {
-        $file = File::where('user_id', auth()->id())->findOrFail($fileId);
-        $file->delete();
-        return ['message' => 'File moved to archive'];
-    }
-
-    public function getTotalViews(): int
-    {
-        $userId = auth()->id();
         return File::where('user_id', $userId)
         ->sum('views_count');
     }
 
-    public function getExistingFilesCount(): int
+    public function getExistingFilesCount($userId): int
     {
-        $userId = auth()->id();
         return File::where('user_id', $userId)
             ->whereNull('deleted_at')
             ->count();
     }
 
-    public function getDeletedFilesCount(): int
+    public function getDeletedFilesCount($userId): int
     {
-        $userId = auth()->id();
         return File::withTrashed()
             ->where('user_id', $userId)
             ->whereNotNull('deleted_at')
@@ -112,5 +100,12 @@ class FileService
             ];
         }
         return ['success' => false];
+    }
+
+    public function deleteFile($userId, $fileId)
+    {
+        $file = File::where('user_id', $userId)->findOrFail($fileId);
+        $file->delete();
+        return ['message' => 'File moved to archive'];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Files;
+namespace App\Http\Controllers\Files\Web;
 
 use App\Http\Controllers\Controller;
-use App\Services\Files\FileLinkService;
 use App\Models\File;
+use App\Services\Files\FileLinkService;
 use Illuminate\Http\Request;
 
 class FileLinkController extends Controller

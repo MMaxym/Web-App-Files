@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Files;
+namespace App\Http\Controllers\Files\Web;
 
 use App\Http\Controllers\Controller;
 use App\Services\Files\FileService;
@@ -17,14 +17,16 @@ class FileController extends Controller
 
     public function upload(Request $request)
     {
-        $response = $this->fileService->uploadFile($request);
+        $userId = auth()->id();
+        $response = $this->fileService->uploadFile($request, $userId);
 
         return response()->json($response, isset($response['error']) ? 400 : 201);
     }
 
     public function destroy($id)
     {
-        $response = $this->fileService->deleteFile($id);
+        $userId = auth()->id();
+        $response = $this->fileService->deleteFile($userId, $id);
         return response()->json($response);
     }
 

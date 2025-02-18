@@ -19,11 +19,13 @@ class MainPageController extends Controller
 
     public function showMainPage()
     {
-        $files = $this->fileService->getUserFiles();
-        $countFiles = $this->fileService->getUserFilesCount();
-        $totalViews = $this->fileService->getTotalViews();
-        $existingFilesCount = $this->fileService->getExistingFilesCount();
-        $deletedFilesCount = $this->fileService->getDeletedFilesCount();
+        $userId = auth()->id();
+
+        $files = $this->fileService->getUserFiles($userId);
+        $countFiles = $this->fileService->getUserFilesCount($userId);
+        $totalViews = $this->fileService->getTotalViews($userId);
+        $existingFilesCount = $this->fileService->getExistingFilesCount($userId);
+        $deletedFilesCount = $this->fileService->getDeletedFilesCount($userId);
 
         $totalDisposableLinks = $this->fileLinkService->getTotalDisposableLinksCount();
         $usedDisposableLinks = $this->fileLinkService->getUsedDisposableLinksCount();

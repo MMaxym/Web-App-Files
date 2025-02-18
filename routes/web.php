@@ -3,8 +3,8 @@
 use App\Http\Controllers\Auth\Web\AuthController;
 use App\Http\Controllers\Auth\Web\ForgotPasswordController;
 use App\Http\Controllers\Auth\Web\GoogleAuthController;
-use App\Http\Controllers\Files\FileController;
-use App\Http\Controllers\Files\FileLinkController;
+use App\Http\Controllers\Files\Web\FileController;
+use App\Http\Controllers\Files\Web\FileLinkController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\Users\Web\UserController;
 use Illuminate\Support\Facades\Route;
