@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services\Files;
+namespace App\Services\FileLinks;
 
 use App\Enums\FileLinkType;
 use App\Models\File;
 use App\Models\FileLink;
-use Illuminate\Support\Facades\DB;
 
 class FileLinkService
 {
@@ -41,9 +40,8 @@ class FileLinkService
         return $link->file;
     }
 
-    public function getTotalDisposableLinksCount(): int
+    public function getTotalDisposableLinksCount($userId): int
     {
-        $userId = auth()->id();
         return FileLink::whereIn('file_id', function ($query) use ($userId) {
                 $query->select('id')
                     ->from('files')
@@ -54,11 +52,8 @@ class FileLinkService
             ->count();
     }
 
-
-    public function getUsedDisposableLinksCount(): int
+    public function getUsedDisposableLinksCount($userId): int
     {
-        $userId = auth()->id();
-
         return FileLink::whereIn('file_id', function ($query) use ($userId) {
             $query->select('id')
                 ->from('files')

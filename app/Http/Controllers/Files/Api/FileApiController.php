@@ -44,6 +44,15 @@ class FileApiController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        $file = $request->file('file');
+
+        if ($file->getSize() > 5242880) {
+            return response()->json([
+                'success' => false,
+                'error' => 'File size exceeds 5MB limit.'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         $result = $this->fileService->uploadFile($request, $userId);
 
         if ($result['success']) {

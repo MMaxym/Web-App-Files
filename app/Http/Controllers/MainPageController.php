@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FileLinks\FileLinkService;
 use App\Services\Files\FileService;
-use App\Services\Files\FileLinkService;
-use Illuminate\Http\Request;
 
 class MainPageController extends Controller
 {
@@ -27,8 +26,8 @@ class MainPageController extends Controller
         $existingFilesCount = $this->fileService->getExistingFilesCount($userId);
         $deletedFilesCount = $this->fileService->getDeletedFilesCount($userId);
 
-        $totalDisposableLinks = $this->fileLinkService->getTotalDisposableLinksCount();
-        $usedDisposableLinks = $this->fileLinkService->getUsedDisposableLinksCount();
+        $totalDisposableLinks = $this->fileLinkService->getTotalDisposableLinksCount($userId);
+        $usedDisposableLinks = $this->fileLinkService->getUsedDisposableLinksCount($userId);
 
         return view('main', compact(
             'files',
