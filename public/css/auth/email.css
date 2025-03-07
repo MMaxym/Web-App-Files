@@ -1,0 +1,100 @@
+.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: var(--h2-b), sans-serif;
+}
+
+.login-box {
+    background-color: rgba(22, 34, 46, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 10px;
+    width: 450px;
+    color: var(--text-color);
+    margin-left: 65%;
+}
+
+h2 {
+    text-align: center;
+    color: var(--text-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+}
+
+input {
+    padding: 10px;
+    border-radius: var(--br-3xs);
+    border: 1px solid var(--grey);
+    background: var(--light1);
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+input::placeholder {
+    color: var(--grey);
+}
+
+.reset-btn {
+    background: var(--blue1);
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: var(--br-3xs);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 30px;
+}
+
+.reset-btn:hover {
+    background-color: var(--blueHover);
+}
+
+.signup {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.signup a {
+    color: var(--blue1);
+    text-decoration: none;
+}
+
+.signup a:hover {
+    color: var(--blueHover);
+}
+
+.error-message, .success-message {
+    font-size: 12px;
+    margin-top: 5px;
+    color: red;
+    text-align: left;
+}
+
+.error-message ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.success-message {
+    color: green;
+}
