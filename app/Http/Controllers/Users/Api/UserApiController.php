@@ -38,13 +38,15 @@ class UserApiController extends Controller
                 'user' => $user,
             ], Response::HTTP_OK);
 
-        } catch (ValidationException $e) {
+        }
+        catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
                 'errors' => $e->errors(),
             ], Response::HTTP_BAD_REQUEST);
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'error' => 'Something went wrong. Please try again later.',

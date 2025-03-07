@@ -57,7 +57,8 @@ class FileApiController extends Controller
 
         if ($result['success']) {
             return response()->json($result, Response::HTTP_OK);
-        } else {
+        }
+        else {
             return response()->json($result, Response::HTTP_BAD_REQUEST);
         }
     }

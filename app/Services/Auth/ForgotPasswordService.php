@@ -13,7 +13,10 @@ class ForgotPasswordService
     public function sendResetLinkEmail($data)
     {
         $validator = Validator::make($data, [
-            'email' => 'required|email',
+            'email' => [
+                'required',
+                'email',
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -52,9 +55,18 @@ class ForgotPasswordService
     public function resetPassword($data)
     {
         $validator = Validator::make($data, [
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
-            'token' => 'required',
+            'email' => [
+                'required',
+                'email',
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:6',
+            ],
+            'token' => [
+                'required',
+            ],
         ]);
 
         if ($validator->fails()) {

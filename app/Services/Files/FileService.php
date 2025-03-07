@@ -11,9 +11,21 @@ class FileService
     public function uploadFile(Request $request, $userId)
     {
         $request->validate([
-            'file' => 'required|file|max:5120',
-            'comment' => 'nullable|string|max:500',
-            'expiration_date' => 'nullable|date|after_or_equal:today',
+            'file' => [
+                'required',
+                'file',
+                'max:5120',
+            ],
+            'comment' => [
+                'nullable',
+                'string',
+                'max:500',
+            ],
+            'expiration_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:today',
+            ],
         ]);
 
         if ($request->hasFile('file')) {
@@ -36,11 +48,14 @@ class FileService
             return [
                 'success' => true,
                 'message' => 'File uploaded successfully!',
-                'file' => $uploadedFile
+                'file' => $uploadedFile,
             ];
         }
 
-        return ['success' => false, 'error' => 'No file uploaded'];
+        return [
+            'success' => false,
+            'error' => 'No file uploaded',
+        ];
     }
 
     public function getUserFiles($userId)
@@ -99,13 +114,17 @@ class FileService
                 'file' => $file,
             ];
         }
-        return ['success' => false];
+        return [
+            'success' => false,
+        ];
     }
 
     public function deleteFile($userId, $fileId)
     {
         $file = File::where('user_id', $userId)->findOrFail($fileId);
         $file->delete();
-        return ['message' => 'File moved to archive'];
+        return [
+            'message' => 'File moved to archive',
+        ];
     }
 }

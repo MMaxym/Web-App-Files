@@ -25,7 +25,8 @@ class UserController extends Controller
                 'message' => 'User information updated successfully.',
                 'user' => $user,
             ], 200);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
             ], 400);

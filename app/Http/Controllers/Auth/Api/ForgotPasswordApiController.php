@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Api;
 
-use _PHPStan_d25a815b1\React\Http\Message\Response;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\Request;

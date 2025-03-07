@@ -12,10 +12,27 @@ class UserService
         $user = User::findOrFail($userId);
 
         $validated = Validator::make($data, [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone' => 'required|string|max:20',
+            'first_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'last_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email,' . $user->id,
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'max:20',
+            ],
         ]);
 
         if ($validated->fails()) {

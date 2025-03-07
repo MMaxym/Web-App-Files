@@ -11,7 +11,9 @@ class GoogleAuthService
     public function redirectToGoogle()
     {
         return Socialite::driver('google')
-            ->with(['prompt' => 'select_account consent'])
+            ->with([
+                'prompt' => 'select_account consent',
+            ])
             ->redirect();
     }
 
@@ -29,9 +31,11 @@ class GoogleAuthService
             Auth::login($user);
 
             return redirect()->route('main')->with('success', 'Authorization successful!');
-        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+        }
+        catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             throw new \Exception('Authorization error: incorrect state.');
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw new \Exception('Authorization error: ' . $e->getMessage());
         }
     }

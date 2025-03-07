@@ -24,7 +24,10 @@ class FileLinkApiController extends Controller
     public function generateLink(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'type' => ['required', 'string', function ($attribute, $value, $fail) {
+            'type' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
                 if (!in_array($value, [FileLinkType::PUBLIC->value, FileLinkType::TEMPORARY->value])) {
                     $fail("Invalid link type. Allowed values: 'public', 'temporary'.");
                 }
@@ -66,10 +69,7 @@ class FileLinkApiController extends Controller
         $filePath = storage_path("app/private/{$file->file_path}");
 
         if (!file_exists($filePath)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'File not found.',
-            ], Response::HTTP_NOT_FOUND);
+            abort(404);
         }
 
         return response()->file($filePath);
