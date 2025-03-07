@@ -60,10 +60,7 @@ class FileLinkApiController extends Controller
         $file = $this->fileLinkService->getFileByToken($token);
 
         if (!$file || $file->file_name !== $fileName) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid file or token.',
-            ], Response::HTTP_NOT_FOUND);
+            abort(404);
         }
 
         $filePath = storage_path("app/private/{$file->file_path}");
