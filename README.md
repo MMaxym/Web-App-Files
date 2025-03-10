@@ -36,7 +36,7 @@ Configure in the `.env` file:
 
 Generate the application key:
 ```bash
-php artisan key:generate
+docker exec -it web-app-files php artisan key:generate
 ```
 
 ### 3. Running with Docker
