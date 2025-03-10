@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Files\Api;
 
 use App\Http\Controllers\Controller;
@@ -8,6 +10,8 @@ use App\Models\User;
 use App\Services\Files\FileService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\JsonResponse;
+
 
 class FileApiController extends Controller
 {
@@ -18,7 +22,7 @@ class FileApiController extends Controller
         $this->fileService = $fileService;
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request): JsonResponse
     {
         $userId = $request->input('user_id');
 
@@ -63,7 +67,7 @@ class FileApiController extends Controller
         }
     }
 
-    public function getUserFiles($userId)
+    public function getUserFiles($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -89,7 +93,7 @@ class FileApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getUserFilesCount($userId)
+    public function getUserFilesCount($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -115,7 +119,7 @@ class FileApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getTotalViews($userId)
+    public function getTotalViews($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -141,7 +145,7 @@ class FileApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getExistingFilesCount($userId)
+    public function getExistingFilesCount($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -167,7 +171,7 @@ class FileApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getDeletedFilesCount($userId)
+    public function getDeletedFilesCount($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -193,7 +197,7 @@ class FileApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getFileDetails($fileId)
+    public function getFileDetails($fileId): JsonResponse
     {
         if (!$fileId) {
             return response()->json([
@@ -222,7 +226,7 @@ class FileApiController extends Controller
         }
     }
 
-    public function delete($userId, $fileId)
+    public function delete($userId, $fileId): JsonResponse
     {
         $user = User::find($userId);
 

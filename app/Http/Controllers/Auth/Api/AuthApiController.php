@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +9,7 @@ use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\JsonResponse;
 
 class AuthApiController extends Controller
 {
@@ -17,7 +20,7 @@ class AuthApiController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $result = $this->authService->registerUser($request->all());
 
@@ -34,7 +37,7 @@ class AuthApiController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $result = $this->authService->authenticateUser($request->all());
 
@@ -53,7 +56,7 @@ class AuthApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $token = $request->bearerToken();
 

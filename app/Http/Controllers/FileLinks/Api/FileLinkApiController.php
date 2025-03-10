@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\FileLinks\Api;
 
 use App\Http\Controllers\Controller;
@@ -11,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\FileLinkType;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileLinkApiController extends Controller
 {
@@ -21,7 +25,7 @@ class FileLinkApiController extends Controller
         $this->fileLinkService = $fileLinkService;
     }
 
-    public function generateLink(Request $request, $id)
+    public function generateLink(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'type' => [
@@ -58,7 +62,7 @@ class FileLinkApiController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function viewFileByToken(string $fileName, string $token)
+    public function viewFileByToken(string $fileName, string $token): BinaryFileResponse
     {
         $file = $this->fileLinkService->getFileByToken($token);
 
@@ -75,7 +79,7 @@ class FileLinkApiController extends Controller
         return response()->file($filePath);
     }
 
-    public function getTotalDisposableLinksCount($userId)
+    public function getTotalDisposableLinksCount($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([
@@ -101,7 +105,7 @@ class FileLinkApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getUsedDisposableLinksCount($userId)
+    public function getUsedDisposableLinksCount($userId): JsonResponse
     {
         if (!$userId) {
             return response()->json([

@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth\Api;
 
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+
 
 class ForgotPasswordApiController extends Controller
 {
@@ -16,7 +20,7 @@ class ForgotPasswordApiController extends Controller
         $this->forgotPasswordService = $forgotPasswordService;
     }
 
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetLinkEmail(Request $request): JsonResponse
     {
         $data = $request->only('email');
         $response = $this->forgotPasswordService->sendResetLinkEmail($data);
@@ -27,7 +31,7 @@ class ForgotPasswordApiController extends Controller
         ], $response['http_code']);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request): JsonResponse
     {
         $data = $request->only('email', 'password', 'password_confirmation', 'token');
         $response = $this->forgotPasswordService->resetPassword($data);

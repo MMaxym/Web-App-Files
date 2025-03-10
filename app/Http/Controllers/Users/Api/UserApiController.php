@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Users\Api;
 
 use App\Http\Controllers\Controller;
@@ -8,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
 
 class UserApiController extends Controller
 {
@@ -18,7 +21,7 @@ class UserApiController extends Controller
         $this->userService = $userService;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         try {
             $token = $request->header('Authorization');

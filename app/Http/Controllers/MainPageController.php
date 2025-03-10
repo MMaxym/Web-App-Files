@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Services\FileLinks\FileLinkService;
 use App\Services\Files\FileService;
+use Illuminate\View\View;
 
 class MainPageController extends Controller
 {
@@ -16,7 +19,7 @@ class MainPageController extends Controller
         $this->fileLinkService = $fileLinkService;
     }
 
-    public function showMainPage()
+    public function showMainPage(): View
     {
         $userId = auth()->id();
 

@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth\Web;
 
 use App\Http\Controllers\Controller;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller
 {
@@ -15,12 +19,12 @@ class ForgotPasswordController extends Controller
         $this->forgotPasswordService = $forgotPasswordService;
     }
 
-    public function showLinkRequestForm()
+    public function showLinkRequestForm(): View
     {
         return view('auth.passwords.email');
     }
 
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm(Request $request, $token = null): View
     {
         return view('auth.passwords.reset', [
             'token' => $token,
@@ -28,7 +32,7 @@ class ForgotPasswordController extends Controller
         ]);
     }
 
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetLinkEmail(Request $request): RedirectResponse
     {
         $result = $this->forgotPasswordService->sendResetLinkEmail($request->only('email'));
 
@@ -39,7 +43,7 @@ class ForgotPasswordController extends Controller
         return back()->withErrors(['email' => $result['message']])->withInput();
     }
 
-    public function reset(Request $request)
+    public function reset(Request $request): RedirectResponse
     {
         $result = $this->forgotPasswordService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
 

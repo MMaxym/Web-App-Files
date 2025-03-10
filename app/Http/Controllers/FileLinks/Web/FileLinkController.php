@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\FileLinks\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use App\Services\FileLinks\FileLinkService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileLinkController extends Controller
 {
@@ -16,7 +20,7 @@ class FileLinkController extends Controller
         $this->fileLinkService = $fileLinkService;
     }
 
-    public function generateLink(Request $request, $id)
+    public function generateLink(Request $request, $id): JsonResponse
     {
         $file = File::findOrFail($id);
         $type = $request->input('type');
@@ -26,7 +30,7 @@ class FileLinkController extends Controller
         return response()->json(['url' => url("/files/view/{$file->file_name}/{$link->token}")]);
     }
 
-    public function viewFile($fileName, $token)
+    public function viewFile($fileName, $token): BinaryFileResponse
     {
         $file = $this->fileLinkService->getFileByToken($token);
 

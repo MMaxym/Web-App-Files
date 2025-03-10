@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Users\Web;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -16,7 +19,7 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function update(Request $request)
+    public function update(Request $request): JsonResponse
     {
         try {
             $user = $this->userService->updateUser($request->all(), Auth::id());
