@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Auth;
 
 use App\Models\User;
@@ -11,7 +13,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
 {
-    public function registerUser($data)
+    public function registerUser($data): array
     {
         $validator = Validator::make($data, [
             'email' => [
@@ -71,7 +73,7 @@ class AuthService
         ];
     }
 
-    public function authenticateUser($credentials)
+    public function authenticateUser($credentials): array
     {
         $validator = Validator::make($credentials, [
             'email' => [
@@ -116,7 +118,7 @@ class AuthService
         ];
     }
 
-    public function logoutUser($token)
+    public function logoutUser($token): array
     {
         if ($token) {
             try {

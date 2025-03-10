@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Services\Users;
 
 use App\Models\User;
@@ -7,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserService
 {
-    public function updateUser($data, $userId)
+    public function updateUser($data, $userId): User
     {
         $user = User::findOrFail($userId);
 

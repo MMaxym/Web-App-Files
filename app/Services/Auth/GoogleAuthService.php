@@ -1,14 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Services\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\RedirectResponse;
 
 class GoogleAuthService
 {
-    public function redirectToGoogle()
+    public function redirectToGoogle(): RedirectResponse
     {
         return Socialite::driver('google')
             ->with([
@@ -17,7 +21,7 @@ class GoogleAuthService
             ->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGoogleCallback(): RedirectResponse
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
@@ -40,7 +44,7 @@ class GoogleAuthService
         }
     }
 
-    private function findOrCreateUser($googleUser)
+    private function findOrCreateUser($googleUser): User
     {
         $email = $googleUser->getEmail();
         $first_name = $googleUser->getName();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Auth;
 
 use App\Models\User;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordService
 {
-    public function sendResetLinkEmail($data)
+    public function sendResetLinkEmail($data): array
     {
         $validator = Validator::make($data, [
             'email' => [
@@ -52,7 +54,7 @@ class ForgotPasswordService
             ];
     }
 
-    public function resetPassword($data)
+    public function resetPassword($data): array
     {
         $validator = Validator::make($data, [
             'email' => [

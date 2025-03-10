@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Files;
 
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 class FileService
 {
-    public function uploadFile(Request $request, $userId)
+    public function uploadFile(Request $request, $userId): array
     {
         $request->validate([
             'file' => [
@@ -58,7 +61,7 @@ class FileService
         ];
     }
 
-    public function getUserFiles($userId)
+    public function getUserFiles($userId): Collection
     {
         return File::where('user_id', $userId)
             ->select('id', 'file_name', 'file_path', 'comment', 'expiration_date', 'views_count', 'created_at')
@@ -86,7 +89,7 @@ class FileService
 
     public function getTotalViews($userId): int
     {
-        return File::where('user_id', $userId)
+        return (int) File::where('user_id', $userId)
         ->sum('views_count');
     }
 
@@ -105,7 +108,7 @@ class FileService
             ->count();
     }
 
-    public function getFileDetails($fileId)
+    public function getFileDetails($fileId): array
     {
         $file = File::find($fileId);
         if ($file) {
@@ -119,7 +122,7 @@ class FileService
         ];
     }
 
-    public function deleteFile($userId, $fileId)
+    public function deleteFile($userId, $fileId): array
     {
         $file = File::where('user_id', $userId)->findOrFail($fileId);
         $file->delete();
