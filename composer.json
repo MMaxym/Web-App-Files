@@ -10,8 +10,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "google/apiclient": "^2.18",
+        "google/apiclient-services": "^0.392.0",
         "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9"
+        "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.17",
+        "laravel/tinker": "^2.9",
+        "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -20,6 +25,8 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
+        "nunomaduro/larastan": "^3.1",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11.0.1"
     },
     "autoload": {

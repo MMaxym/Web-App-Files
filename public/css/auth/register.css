@@ -1,0 +1,142 @@
+.icon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    font-family: var(--h2-b), sans-serif;
+    margin-left: 7% !important;
+    margin-top: 20px;
+}
+
+.register-box {
+    background-color: rgba(22, 34, 46, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 10px;
+    width: 450px;
+    color: var(--text-color);
+    margin-right: 65%;
+}
+
+h2 {
+    text-align: center;
+    color: var(--text-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+}
+
+input {
+    padding: 10px;
+    border-radius: var(--br-3xs);
+    border: 1px solid var(--grey);
+    background: var(--light1);
+    color: var(--text-color);
+}
+
+input::placeholder {
+    color: var(--grey);
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.material-icons {
+    font-size: 20px;
+}
+
+.register-btn {
+    background: var(--blue1);
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: var(--br-3xs);
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.register-btn:hover {
+    background-color: var(--blueHover);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-link a {
+    color: var(--blue1);
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    color: var(--blueHover);
+}
+
+.phone-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#phone{
+    border: 1px solid var(--grey) ;
+    background: var(--light1);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: var(--br-3xs);
+    height: 46px;
+}
+
+#phone::placeholder {
+    color: var(--grey);
+}
+
+.iti {
+    width: 100%;
+}
+
+.error-message {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    color: red;
+}
