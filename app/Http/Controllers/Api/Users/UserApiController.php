@@ -7,8 +7,7 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use App\Http\Requests\UpdateUserRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserApiController extends Controller
@@ -20,39 +19,23 @@ class UserApiController extends Controller
         $this->userService = $userService;
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
-        try {
-            $token = $request->header('Authorization');
+        $token = $request->header('Authorization');
 
-            if (!$token) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Unauthenticated',
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-
-            $user = $this->userService->updateUser($request->all(), $id);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'User information updated successfully',
-                'user' => $user,
-            ], Response::HTTP_OK);
-
-        }
-        catch (ValidationException $e) {
+        if (!$token) {
             return response()->json([
                 'success' => false,
-                'errors' => $e->errors(),
-            ], Response::HTTP_BAD_REQUEST);
+                'error' => 'Unauthenticated',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
 
-        }
-        catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => 'Something went wrong. Please try again later.',
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $user = $this->userService->updateUser($request->validated(), $id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User information updated successfully',
+            'user' => $user,
+        ], Response::HTTP_OK);
     }
 }

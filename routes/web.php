@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\Web\Auth\AuthController;
 use App\Http\Controllers\Web\Auth\ForgotPasswordController;
 use App\Http\Controllers\Web\Auth\GoogleAuthController;
 use App\Http\Controllers\Web\FileLinks\FileLinkController;
 use App\Http\Controllers\Web\Files\FileController;
+use App\Http\Controllers\Web\MainPageController;
 use App\Http\Controllers\Web\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +30,7 @@ Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showRese
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/main', [MainPageController::class, 'showMainPage'])->name('main');
-    Route::put('/users/update', [UserController::class, 'update'])->name('user.update');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::post('/files/upload-file', [FileController::class, 'upload'])->name('upload.file');
     Route::delete('/files/{id}', [FileController::class, 'destroy'])->name('files.destroy');
     Route::post('/files/{id}/generate-link', [FileLinkController::class, 'generateLink']);

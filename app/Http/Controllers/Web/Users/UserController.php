@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Web\Users;
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -19,20 +19,15 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(UpdateUserRequest $request): JsonResponse
     {
-        try {
-            $user = $this->userService->updateUser($request->all(), Auth::id());
+        $userId = auth()->id();
 
-            return response()->json([
-                'message' => 'User information updated successfully.',
-                'user' => $user,
-            ], 200);
-        }
-        catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        $user = $this->userService->updateUser($request->validated(), $userId);
+
+        return response()->json([
+            'message' => 'User information updated successfully.',
+            'user' => $user,
+        ], 200);
     }
 }

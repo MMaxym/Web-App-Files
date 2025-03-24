@@ -10,37 +10,9 @@ use Illuminate\Support\Facades\Validator;
 
 class UserService
 {
-    public function updateUser($data, $userId): User
+    public function updateUser(array $data, int $userId): User
     {
         $user = User::findOrFail($userId);
-
-        $validated = Validator::make($data, [
-            'first_name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'last_name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                'unique:users,email,' . $user->id,
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'max:20',
-            ],
-        ]);
-
-        if ($validated->fails()) {
-            throw new ValidationException($validated);
-        }
 
         $user->update([
             'first_name' => $data['first_name'],

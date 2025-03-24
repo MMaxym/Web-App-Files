@@ -105,7 +105,7 @@
                         </div>
                         <div class="modal-description">You can edit your personal information and save it</div>
                         <div class="modal-body">
-                            <form class="form-edit">
+                            <form class="form-edit" >
                                 @csrf
                                 <label for="firstName" id="firstNameLabel">First Name</label>
                                 <input type="text" id="firstName" name="first_name" value="{{ Auth::user()->first_name }}">
@@ -281,5 +281,6 @@
                 </div>
             </div>
         </div>
+        <meta name="user-id" content="{{ Auth::id() }}">
         <script src="{{ asset('js/main.js') }}"></script>
 @endsection

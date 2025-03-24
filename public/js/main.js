@@ -325,12 +325,14 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
+    const userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
 
-    fetch(`/users/update`, {
+    fetch(`/users/update/${userId}`, {
         method: "PUT",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             "Content-Type": "application/json",
+            "Accept": "application/json",
         },
         body: JSON.stringify({
             first_name: formData.get('first_name'),
@@ -354,7 +356,8 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
                 }, 1500);
 
 
-            } else {
+            }
+            else {
                 showErrorMessage3(data.error);
             }
         })
