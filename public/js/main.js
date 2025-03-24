@@ -327,6 +327,8 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
     const formData = new FormData(this);
     const userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
 
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
     fetch(`/users/update/${userId}`, {
         method: "PUT",
         headers: {
@@ -354,16 +356,27 @@ document.querySelector('.form-edit').addEventListener('submit', function (e) {
                     successAlert.classList.remove("visible");
                     location.reload();
                 }, 1500);
-
-
             }
-            else {
-                showErrorMessage3(data.error);
+            else if (data.errors) {
+                showValidationErrors(data.errors);
+            } else {
+                alert("Unexpected error occurred!");
             }
         })
         .catch(error => {
-            alert('Error: ' + error.message);
+            showErrorMessage3('Error: ' + error.message);
         });
+
+    function showValidationErrors(errors) {
+        for (const field in errors) {
+            const fieldId = field.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()) + "Error";
+
+            const errorDiv = document.getElementById(fieldId);
+            if (errorDiv) {
+                errorDiv.textContent = "* " + errors[field][0];
+            }
+        }
+    }
 
     function showErrorMessage3(message) {
         const errorAlert = document.getElementById('error-alert3');
