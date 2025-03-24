@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Users\Api;
+namespace App\Http\Controllers\Api\Users;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserApiController extends Controller
 {

@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\Api\AuthApiController;
-use App\Http\Controllers\Auth\Api\ForgotPasswordApiController;
-use App\Http\Controllers\FileLinks\Api\FileLinkApiController;
-use App\Http\Controllers\Files\Api\FileApiController;
-use App\Http\Controllers\Users\Api\UserApiController;
+use App\Http\Controllers\Api\Auth\AuthApiController;
+use App\Http\Controllers\Api\Auth\ForgotPasswordApiController;
+use App\Http\Controllers\Api\FileLinks\FileLinkApiController;
+use App\Http\Controllers\Api\Files\FileApiController;
+use App\Http\Controllers\Api\Users\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

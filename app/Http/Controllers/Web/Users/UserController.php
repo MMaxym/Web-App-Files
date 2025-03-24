@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Users\Web;
+namespace App\Http\Controllers\Web\Users;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {

@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\FileLinks\Api;
+namespace App\Http\Controllers\Api\FileLinks;
 
+use App\Enums\FileLinkType;
 use App\Http\Controllers\Controller;
 use App\Models\File;
-use App\Models\FileLink;
 use App\Models\User;
 use App\Services\FileLinks\FileLinkService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Enums\FileLinkType;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileLinkApiController extends Controller

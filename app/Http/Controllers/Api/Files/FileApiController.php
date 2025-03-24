@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Files\Api;
+namespace App\Http\Controllers\Api\Files;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use App\Models\User;
 use App\Services\Files\FileService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\JsonResponse;
 
 
 class FileApiController extends Controller

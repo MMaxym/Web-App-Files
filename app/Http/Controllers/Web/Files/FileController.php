@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Files\Web;
+namespace App\Http\Controllers\Web\Files;
 
 use App\Http\Controllers\Controller;
 use App\Services\Files\FileService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class FileController extends Controller
 {

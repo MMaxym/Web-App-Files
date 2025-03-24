@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\Web\AuthController;
-use App\Http\Controllers\Auth\Web\ForgotPasswordController;
-use App\Http\Controllers\Auth\Web\GoogleAuthController;
-use App\Http\Controllers\FileLinks\Web\FileLinkController;
-use App\Http\Controllers\Files\Web\FileController;
 use App\Http\Controllers\MainPageController;
-use App\Http\Controllers\Users\Web\UserController;
+use App\Http\Controllers\Web\Auth\AuthController;
+use App\Http\Controllers\Web\Auth\ForgotPasswordController;
+use App\Http\Controllers\Web\Auth\GoogleAuthController;
+use App\Http\Controllers\Web\FileLinks\FileLinkController;
+use App\Http\Controllers\Web\Files\FileController;
+use App\Http\Controllers\Web\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

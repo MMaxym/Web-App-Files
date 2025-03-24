@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\FileLinks\Web;
+namespace App\Http\Controllers\Web\FileLinks;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use App\Services\FileLinks\FileLinkService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileLinkController extends Controller
