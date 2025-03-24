@@ -4,33 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services\Files;
 
+use App\Http\Requests\UploadFileRequest;
 use App\Models\File;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 
 class FileService
 {
-    public function uploadFile(Request $request, $userId): array
+    public function uploadFile(UploadFileRequest $request, $userId): array
     {
-        $request->validate([
-            'file' => [
-                'required',
-                'file',
-                'max:5120',
-            ],
-            'comment' => [
-                'nullable',
-                'string',
-                'max:500',
-            ],
-            'expiration_date' => [
-                'nullable',
-                'date',
-                'after_or_equal:today',
-            ],
-        ]);
-
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();

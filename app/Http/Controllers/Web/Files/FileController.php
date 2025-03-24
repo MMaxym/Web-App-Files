@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Files;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadFileRequest;
 use App\Services\Files\FileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
@@ -18,7 +18,7 @@ class FileController extends Controller
         $this->fileService = $fileService;
     }
 
-    public function upload(Request $request): JsonResponse
+    public function upload(UploadFileRequest $request): JsonResponse
     {
         $userId = auth()->id();
         $response = $this->fileService->uploadFile($request, $userId);

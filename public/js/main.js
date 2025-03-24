@@ -288,14 +288,16 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
         method: "POST",
         body: formData,
         headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "Accept": "application/json",
         }
     })
         .then(response => response.json())
         .then(data => {
             if (data.error) {
                 showErrorMessage(data.error);
-            } else {
+            }
+            else {
                 const successAlert = document.getElementById("success-alert2");
                 const successMessage = document.getElementById("success-message");
 

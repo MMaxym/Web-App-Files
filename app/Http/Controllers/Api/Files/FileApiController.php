@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Files;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadFileRequest;
 use App\Models\File;
 use App\Models\User;
 use App\Services\Files\FileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -22,7 +22,7 @@ class FileApiController extends Controller
         $this->fileService = $fileService;
     }
 
-    public function upload(Request $request): JsonResponse
+    public function upload(UploadFileRequest $request): JsonResponse
     {
         $userId = $request->input('user_id');
 
@@ -39,22 +39,6 @@ class FileApiController extends Controller
                 'success' => false,
                 'error' => 'User not found.'
             ], Response::HTTP_NOT_FOUND);
-        }
-
-        if (!$request->hasFile('file')) {
-            return response()->json([
-                'success' => false,
-                'error' => 'No file uploaded.'
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
-        $file = $request->file('file');
-
-        if ($file->getSize() > 5242880) {
-            return response()->json([
-                'success' => false,
-                'error' => 'File size exceeds 5MB limit.'
-            ], Response::HTTP_BAD_REQUEST);
         }
 
         $result = $this->fileService->uploadFile($request, $userId);
