@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -12,22 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordService
 {
-    public function sendResetLinkEmail($data): array
+    public function sendResetLinkEmail(ForgotPasswordRequest $request): array
     {
-        $validator = Validator::make($data, [
-            'email' => [
-                'required',
-                'email',
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'status' => 'error',
-                'message' => $validator->errors(),
-                'http_code' => Response::HTTP_BAD_REQUEST,
-            ];
-        }
+        $data = $request->validated();
 
         $user = User::where('email', $data['email'])->first();
 
@@ -54,30 +43,9 @@ class ForgotPasswordService
             ];
     }
 
-    public function resetPassword($data): array
+    public function resetPassword(ResetPasswordRequest $request): array
     {
-        $validator = Validator::make($data, [
-            'email' => [
-                'required',
-                'email',
-            ],
-            'password' => [
-                'required',
-                'confirmed',
-                'min:6',
-            ],
-            'token' => [
-                'required',
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'status' => 'error',
-                'message' => $validator->errors(),
-                'http_code' => Response::HTTP_BAD_REQUEST,
-            ];
-        }
+        $data = $request->validated();
 
         $response = Password::reset($data, function ($user, $password) {
             $user->password = Hash::make($password);

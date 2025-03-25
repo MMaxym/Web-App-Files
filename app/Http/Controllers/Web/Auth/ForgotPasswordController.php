@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,25 +34,23 @@ class ForgotPasswordController extends Controller
         ]);
     }
 
-    public function sendResetLinkEmail(Request $request): RedirectResponse
+    public function sendResetLinkEmail(ForgotPasswordRequest $request): RedirectResponse
     {
-        $result = $this->forgotPasswordService->sendResetLinkEmail($request->only('email'));
+        $result = $this->forgotPasswordService->sendResetLinkEmail($request);
 
         if ($result['status'] == 'success') {
             return back()->with('success', $result['message']);
         }
-
         return back()->withErrors(['email' => $result['message']])->withInput();
     }
 
-    public function reset(Request $request): RedirectResponse
+    public function reset(ResetPasswordRequest $request): RedirectResponse
     {
-        $result = $this->forgotPasswordService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
+        $result = $this->forgotPasswordService->resetPassword($request);
 
         if ($result['status'] == 'success') {
             return redirect()->route('login')->with('success', $result['message']);
         }
-
         return back()->withErrors(['email' => $result['message']]);
     }
 }

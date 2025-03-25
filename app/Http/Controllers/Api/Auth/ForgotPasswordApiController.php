@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-
 
 class ForgotPasswordApiController extends Controller
 {
@@ -19,10 +20,9 @@ class ForgotPasswordApiController extends Controller
         $this->forgotPasswordService = $forgotPasswordService;
     }
 
-    public function sendResetLinkEmail(Request $request): JsonResponse
+    public function sendResetLinkEmail(ForgotPasswordRequest $request): JsonResponse
     {
-        $data = $request->only('email');
-        $response = $this->forgotPasswordService->sendResetLinkEmail($data);
+        $response = $this->forgotPasswordService->sendResetLinkEmail($request);
 
         return response()->json([
             'success' => $response['status'] === 'success',
@@ -30,10 +30,9 @@ class ForgotPasswordApiController extends Controller
         ], $response['http_code']);
     }
 
-    public function resetPassword(Request $request): JsonResponse
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
-        $data = $request->only('email', 'password', 'password_confirmation', 'token');
-        $response = $this->forgotPasswordService->resetPassword($data);
+        $response = $this->forgotPasswordService->resetPassword($request);
 
         return response()->json([
             'success' => $response['status'] === 'success',
