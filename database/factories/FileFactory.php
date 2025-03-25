@@ -11,7 +11,7 @@ class FileFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::query()->inRandomOrder()->first()->id,
+            'user_id' => User::query()->inRandomOrder()->first()?->id,
             'file_name' => $this->faker->word() . '.pdf',
             'file_path' => 'uploads/' . Str::random(10) . '.pdf',
             'comment' => $this->faker->optional(0.3)->sentence(),
