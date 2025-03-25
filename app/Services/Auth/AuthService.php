@@ -4,60 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
 {
-    public function registerUser($data): array
+    public function registerUser(RegisterRequest $request): array
     {
-        $validator = Validator::make($data, [
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'min:6',
-                'confirmed',
-            ],
-            'password_confirmation' => [
-                'required',
-                'string',
-                'min:6',
-            ],
-            'first_name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:255',
-            ],
-            'last_name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:255',
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'min:10',
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'errors' => $validator->errors(),
-            ];
-        }
+        $data = $request->validated();
 
         $user = User::create([
             'name' => $data['first_name'] . ' ' . $data['last_name'],
@@ -73,24 +32,9 @@ class AuthService
         ];
     }
 
-    public function authenticateUser($credentials): array
+    public function authenticateUser(LoginRequest $request): array
     {
-        $validator = Validator::make($credentials, [
-            'email' => [
-                'required',
-                'email',
-            ],
-            'password' => [
-                'required',
-                'string',
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'errors' => $validator->errors(),
-            ];
-        }
+        $credentials = $request->validated();
 
         $user = User::where('email', $credentials['email'])->first();
 

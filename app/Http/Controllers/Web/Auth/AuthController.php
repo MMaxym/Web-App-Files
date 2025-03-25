@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,9 +32,9 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function registration(Request $request): RedirectResponse
+    public function registration(RegisterRequest $request): RedirectResponse
     {
-        $result = $this->authService->registerUser($request->all());
+        $result = $this->authService->registerUser($request);
 
         if (isset($result['errors'])) {
             return redirect()->back()->withErrors($result['errors'])->withInput();
@@ -42,9 +44,9 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registration successful!');
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        $result = $this->authService->authenticateUser($request->all());
+        $result = $this->authService->authenticateUser($request);
 
         if (isset($result['errors'])) {
             return back()->withErrors($result['errors'])->withInput();

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,9 +21,9 @@ class AuthApiController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request): JsonResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $result = $this->authService->registerUser($request->all());
+        $result = $this->authService->registerUser($request);
 
         if (isset($result['errors'])) {
             return response()->json([
@@ -36,9 +38,9 @@ class AuthApiController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $result = $this->authService->authenticateUser($request->all());
+        $result = $this->authService->authenticateUser($request);
 
         if (isset($result['errors'])) {
             return response()->json([
