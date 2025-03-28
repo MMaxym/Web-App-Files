@@ -16,16 +16,16 @@ class FileSeeder extends Seeder
     {
         $users = User::all();
 
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $user = $users->random();
-            $fileName = Str::random(10) . '.pdf';
+            $fileName = 'test_'. Str::random(10) . '.pdf';
             $uniqueFilePath = 'uploads/' . uniqid() . "_" . $fileName;
 
             $fileContent = 'This is a fake file for testing purposes.';
             $filePath = storage_path('app/private/' . $uniqueFilePath);
             file_put_contents($filePath, $fileContent);
 
-            Storage::putFileAs('private/uploads', new HttpFile($filePath), $uniqueFilePath);
+            Storage::putFileAs('/', new HttpFile($filePath), $uniqueFilePath);
 
             File::factory()->create([
                 'user_id' => $user->id,

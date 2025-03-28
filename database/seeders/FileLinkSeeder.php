@@ -10,6 +10,6 @@ class FileLinkSeeder extends Seeder
 {
     public function run(): void
     {
-        FileLink::factory(50)->create();
+        FileLink::factory(10)->create();
     }
 }
