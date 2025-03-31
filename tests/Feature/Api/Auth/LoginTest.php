@@ -37,7 +37,7 @@ class LoginTest extends TestCase
 
     public function test_login_fails_with_invalid_data(): void
     {
-        $response = $this->postJson('/api/auth/login', []);
+        $response = $this->postJson('/api/auth/login');
 
         $response->assertStatus(422)
             ->assertJsonStructure(['message', 'errors']);

@@ -37,7 +37,7 @@ class RegisterTest extends TestCase
 
     public function test_registration_fails_with_invalid_data(): void
     {
-        $response = $this->postJson('/api/auth/register', []);
+        $response = $this->postJson('/api/auth/register');
 
         $response->assertStatus(422)
             ->assertJsonStructure(['message', 'errors']);
