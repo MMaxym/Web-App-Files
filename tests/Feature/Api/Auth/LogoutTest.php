@@ -35,11 +35,11 @@ class LogoutTest extends TestCase
         $token = $responseData['token'];
         $this->assertIsString($token);
 
-        $responseLogout = $this->postJson('/api/auth/logout', [], [
+        $response = $this->postJson('/api/auth/logout', [], [
             'Authorization' => 'Bearer ' . $token
         ]);
 
-        $responseLogout->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'message' => 'Logout successful!',
@@ -49,9 +49,9 @@ class LogoutTest extends TestCase
 
     public function test_logout_fails_without_token(): void
     {
-        $responseLogout = $this->postJson('/api/auth/logout');
+        $response = $this->postJson('/api/auth/logout');
 
-        $responseLogout->assertStatus(401)
+        $response->assertStatus(401)
             ->assertJson([
                 'success' => false,
                 'message' => 'Unauthenticated.',
