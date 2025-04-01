@@ -57,6 +57,9 @@ class PasswordResetTest extends TestCase
         $response = $this->postJson('/api/auth/password/reset');
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['message', 'errors']);
+            ->assertJsonStructure([
+                'message',
+                'errors',
+            ]);
     }
 }

@@ -40,7 +40,10 @@ class LoginTest extends TestCase
         $response = $this->postJson('/api/auth/login');
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['message', 'errors']);
+            ->assertJsonStructure([
+                'message',
+                'errors',
+            ]);
     }
 
     public function test_login_fails_with_invalid_password(): void

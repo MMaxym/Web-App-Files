@@ -56,8 +56,8 @@ class SendEmailTest extends TestCase
                 'errors' => [
                     'email' => [
                         'The email field is required.'
-                    ]
-                ]
+                    ],
+                ],
             ]);
     }
 }

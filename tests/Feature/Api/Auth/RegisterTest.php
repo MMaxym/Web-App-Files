@@ -62,8 +62,8 @@ class RegisterTest extends TestCase
                 'errors' => [
                     'email' => [
                         'The email has already been taken.'
-                    ]
-                ]
+                    ],
+                ],
             ]);
     }
 }
