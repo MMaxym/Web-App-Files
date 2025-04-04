@@ -12,38 +12,61 @@ use Illuminate\Foundation\Testing\TestCase;
 
 class FullUserFlowTest extends TestCase
 {
+    private string $token;
+    private int $userId;
+
     public function test_full_user_flow(): void
     {
-        //----------Registration----------
-        User::where('email', 'fullTest@exaple.com')->delete();
+        $this->registerUser();
+        $this->loginUser();
+        $this->viewUserFiles();
+        $this->viewFileDetails();
+        $this->viewTotalViews();
+        $this->viewTotalFileCounts();
+        $this->viewExistingFilesCount();
+        $this->viewDeletedFilesCount();
+        $this->viewDisposableLinksCounts();
+        $this->viewUsedDisposableLinksCounts();
+        $fileId = $this->uploadFile();
+        $this->generateTemporaryLink($fileId);
+        $this->generatePublicLink($fileId);
+        $this->deleteFile($fileId);
+        $this->updateUserInfo();
+        $this->logoutUser();
+    }
 
-        $requestDataRegister = [
+    private function registerUser(): void
+    {
+        User::where('email', 'fullTest@example.com')->delete();
+
+        $requestData = [
             'first_name' => 'Test',
             'last_name' => 'Test',
-            'email' => 'fullTest@exaple.com',
+            'email' => 'fullTest@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
             'phone' => '380974561207',
         ];
 
-        $responseRegister = $this->postJson('/api/auth/register', $requestDataRegister);
+        $response = $this->postJson('/api/auth/register', $requestData);
 
-        $responseRegister->assertStatus(201)
+        $response->assertStatus(201)
             ->assertJson([
                 'success' => true,
                 'message' => 'Registration successful!',
             ]);
+    }
 
-
-        //----------Authorization----------
-        $requestDataLogin = [
-            'email' => 'fullTest@exaple.com',
+    private function loginUser(): void
+    {
+        $requestData = [
+            'email' => 'fullTest@example.com',
             'password' => 'password123',
         ];
 
-        $responseLogin = $this->postJson('/api/auth/login', $requestDataLogin);
+        $response = $this->postJson('/api/auth/login', $requestData);
 
-        $responseLogin->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'message' => 'Login successful!',
@@ -64,22 +87,20 @@ class FullUserFlowTest extends TestCase
                 ],
             ]);
 
-        $responseData = $responseLogin->json();
-        $token = $responseData['token'];
-        $this->assertIsString($token);
+        $data = $response->json();
+        $this->token = $data['token'];
+        $this->userId = $data['user']['id'];
+    }
 
-
-
-        //----------View_User_Files----------
-        $user_id = $responseLogin->json('user.id');
-
+    private function viewUserFiles(): void
+    {
         File::factory(5)->create([
-            'user_id' =>  $user_id,
+            'user_id' => $this->userId,
         ]);
 
-        $responseUserFiles = $this->get('api/users/'. $user_id.'/files');
+        $response = $this->get('api/users/' . $this->userId . '/files');
 
-        $responseUserFiles->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
@@ -96,16 +117,17 @@ class FullUserFlowTest extends TestCase
                     ],
                 ],
             ]);
+    }
 
-
-        //----------View_File_Details----------
-        $fileDetails = File::factory()->create([
-            'user_id' =>  $user_id,
+    private function viewFileDetails(): void
+    {
+        $file = File::factory()->create([
+            'user_id' => $this->userId,
         ]);
 
-        $responseFileDetails = $this->get('/api/files/' . $fileDetails->id);
+        $response = $this->get('/api/files/' . $file->id);
 
-        $responseFileDetails->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
@@ -123,106 +145,113 @@ class FullUserFlowTest extends TestCase
                     'deleted_at',
                 ],
             ]);
+    }
 
+    private function viewTotalViews(): void
+    {
+        $response = $this->get('api/users/'.$this->userId.'/files/total-views');
 
-        //----------View_Total_Views----------
-        $responseTotalViews = $this->get('api/users/'.$user_id.'/files/total-views');
-
-        $responseTotalViews->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'total_views' => intval($responseTotalViews->json('total_views')),
+                'total_views' => intval($response->json('total_views')),
             ]);
+    }
 
+    private function viewTotalFileCounts(): void
+    {
+        $response = $this->get('api/users/' .$this->userId. '/files/total-count');
 
-        //----------View_Total_Count_Files----------
-        $responseTotalCount = $this->get('api/users/'.$user_id.'/files/total-count');
-
-        $responseTotalCount->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'files_count' => intval($responseTotalCount->json('files_count')),
+                'files_count' => intval($response->json('files_count')),
             ]);
+    }
 
+    private function viewExistingFilesCount(): void
+    {
+        $response = $this->get('api/users/'. $this->userId .'/files/existing-count');
 
-        //----------View_Existing_Count_Files----------
-        $responseExistingCount = $this->get('api/users/'.$user_id.'/files/existing-count');
-
-        $responseExistingCount->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'existing_files_count' => intval($responseExistingCount->json('existing_files_count')),
+                'existing_files_count' => intval($response->json('existing_files_count')),
             ]);
+    }
 
-
-        //----------View_Deleted_Count_Files----------
+    private function viewDeletedFilesCount(): void
+    {
         File::factory(5)->create([
-            'user_id' => $user_id,
+            'user_id' => $this->userId,
             'deleted_at' => now(),
         ]);
 
-        $responseDeletedCount = $this->get('api/users/'.$user_id.'/files/deleted-count');
+        $response = $this->get('api/users/' . $this->userId . '/files/deleted-count');
 
-        $responseDeletedCount->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'deleted_files_count' => intval($responseDeletedCount->json('deleted_files_count')),
+                'deleted_files_count' => intval($response->json('deleted_files_count')),
             ]);
+    }
 
-
-        //----------View_Disposable_Links_Count----------
-        $fileDisposableLinks = File::factory()->create([
-            'user_id' => $user_id,
+    private function viewDisposableLinksCounts(): void
+    {
+        $file = File::factory()->create([
+            'user_id' => $this->userId,
         ]);
 
         FileLink::factory(10)->create([
-            'file_id' => $fileDisposableLinks->id,
+            'file_id' => $file->id,
         ]);
 
-        $responseDisposableLinks = $this->get('api/users/'.$user_id.'/file-links/disposable-links-count');
+        $response= $this->get('api/users/' . $this->userId . '/file-links/disposable-links-count');
 
-        $responseDisposableLinks->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'disposable_links_count' => intval($responseDisposableLinks->json('disposable_links_count')),
+                'disposable_links_count' => intval($response->json('disposable_links_count')),
             ]);
+    }
 
+    private function viewUsedDisposableLinksCounts(): void
+    {
+        $response = $this->get('api/users/' . $this->userId . '/file-links/used-disposable-links-count');
 
-        //----------View_Used_Disposable_Links_Count----------
-        $responseUsedDisposableLinks = $this->get('api/users/'.$user_id.'/file-links/used-disposable-links-count');
-
-        $responseUsedDisposableLinks->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
             ])
             ->assertJsonFragment([
-                'used_disposable_links_count' => intval($responseUsedDisposableLinks->json('used_disposable_links_count')),
+                'used_disposable_links_count' => intval($response->json('used_disposable_links_count')),
             ]);
+    }
 
+    private function uploadFile(): int
+    {
+        $file = UploadedFile::fake()->create('test_document_12345.pdf', 1000, 'application/pdf');
 
-        //----------Add_New_File----------
-        $fileUpload = UploadedFile::fake()->create('test_document_12345.pdf', 1000, 'application/pdf');
-
-        $requestDataUploadFile = [
-            'user_id' => $user_id,
-            'file' => $fileUpload,
+        $requestData = [
+            'user_id' => $this->userId,
+            'file' => $file,
             'comment' => 'Test file comment for full test flow',
             'expiration_date' => now()->addDays(5)->toDateString(),
         ];
 
-        $responseUploadFile = $this->postJson('/api/files/upload', $requestDataUploadFile);
+        $response= $this->postJson('/api/files/upload', $requestData);
 
-        $responseUploadFile->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'message' => 'File uploaded successfully!',
@@ -241,18 +270,18 @@ class FullUserFlowTest extends TestCase
                 ],
             ]);
 
+        return $response->json('file.id');
+    }
 
-
-        //----------Generate_Temporary_Link----------
-        $file_id_for_generate_links = $responseUploadFile->json('file.id');
-
-        $requestGenerateTemporaryLink = [
+    private function generateTemporaryLink(int $fileId): void
+    {
+        $requestData = [
             'type' => 'temporary',
         ];
 
-        $responseGenerateTemporaryLink = $this->postJson('api/files/' . $file_id_for_generate_links . '/generate-link', $requestGenerateTemporaryLink);
+        $response = $this->postJson('api/files/' . $fileId . '/generate-link', $requestData);
 
-        $responseGenerateTemporaryLink->assertStatus(201)
+        $response->assertStatus(201)
             ->assertJson([
                 'success' => true,
                 'message' => 'File link generated successfully.',
@@ -260,17 +289,17 @@ class FullUserFlowTest extends TestCase
             ->assertJsonStructure([
                 'link',
             ]);
+    }
 
-
-
-        //----------Generate_Public_Link----------
-        $requestGeneratePublicLink = [
+    private function generatePublicLink(int $fileId): void
+    {
+        $requestData = [
             'type' => 'public',
         ];
 
-        $responseGeneratePublicLink = $this->postJson('api/files/' . $file_id_for_generate_links . '/generate-link', $requestGeneratePublicLink);
+        $response = $this->postJson('api/files/' . $fileId . '/generate-link', $requestData);
 
-        $responseGeneratePublicLink->assertStatus(201)
+        $response->assertStatus(201)
             ->assertJson([
                 'success' => true,
                 'message' => 'File link generated successfully.',
@@ -278,50 +307,45 @@ class FullUserFlowTest extends TestCase
             ->assertJsonStructure([
                 'link',
             ]);
+    }
 
+    private function deleteFile(int $fileId): void
+    {
+        $response = $this->delete('api/users/' . $this->userId . '/files/' . $fileId);
 
-
-        //----------Delete_File----------
-        $responseDeleteFile = $this->delete('api/users/' . $user_id . '/files/' . $file_id_for_generate_links);
-
-        $responseDeleteFile->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'message' => 'File moved to archive',
             ]);
+    }
 
-
-
-        //----------Update_User_Personal_Information----------
-        $user_first_name = $responseLogin->json('user.first_name');
-        $user_last_name = $responseLogin->json('user.last_name');
-        $user_email = $responseLogin->json('user.email');
-        $user_phone = $responseLogin->json('user.phone');
-
-        $requestDataUpdateUser = [
-            'first_name' => $user_first_name . '_update',
-            'last_name' => $user_last_name . '_update',
-            'email' => $user_email,
-            'phone' => $user_phone,
+    private function updateUserInfo(): void
+    {
+        $requestData = [
+            'first_name' => 'Test_user_updated',
+            'last_name' => 'Test_user_updated',
+            'email' => 'fullTest@example.com',
+            'phone' => '380974561207',
         ];
 
-        $responseUpdateUser = $this->putJson('/api/users/' . $user_id, $requestDataUpdateUser, [
-            'Authorization' => 'Bearer ' . $token
+        $response = $this->putJson('/api/users/' . $this->userId, $requestData, [
+            'Authorization' => 'Bearer ' . $this->token,
         ]);
 
-        $responseUpdateUser->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'message' => 'User information updated successfully',
             ]);
+    }
 
-
-
-        //----------Logout----------
-        $responseLogout = $this->postJson('/api/auth/logout', [], [
-            'Authorization' => 'Bearer ' . $token
+    private function logoutUser(): void
+    {
+        $response = $this->postJson('/api/auth/logout', [], [
+            'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $responseLogout->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'message' => 'Logout successful!',
