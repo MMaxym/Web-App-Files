@@ -67,6 +67,31 @@ Open your browser and navigate to the address specified in the **APP_URL** varia
 
 ---
 
+## Running tests
+To run the tests on a test database, follow these steps:
+
+### 1. Access the container’s bash shell
+Open the application container’s shell using the following command:
+```bash
+docker-compose exec -u sail app bash
+```
+
+### 2. Run fresh migrations for the testing environment
+Once inside the container, run database migrations specifically for the testing environment:
+```bash
+php artisan migrate:fresh --env=testing
+```
+
+### 3. Execute the test suite
+Finally, run the test suite on the test database:
+```bash
+php artisan test --env=testing
+```
+
+⚠️ Make sure your .env.testing file is properly configured with the correct testing database credentials.
+
+---
+
 ## Core Technologies
 - **Backend**: Laravel
 - **Frontend**: Blade and SPA via Nuxt.js API
