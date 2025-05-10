@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    line-height: normal;
+}
+
+:root {
+    /* fonts */
+    --h2-b: Montserrat;
+
+    /* font sizes */
+    --h2-b-size: 20px;
+
+    /* Colors */
+    --blue1: #05a3f5;
+    --blueHover: #0381C3;
+    --text-color: #c3c8d5;
+    --grey: #77939f;
+    --light1: #1E3044;
+    --light1Hover: #2c4561;
+    --dark1: #16222e;
+
+    /* Gaps */
+    --gap-2xs: 11px;
+
+    /* Paddings */
+    --padding-xl: 10px;
+    --padding-181xl: 200px;
+    --padding-21xl: 30px;
+
+    /* Border radiuses */
+    --br-3xs: 10px;
+}
